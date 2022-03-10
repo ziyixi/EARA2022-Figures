@@ -3,7 +3,7 @@ Plot the events and stations' distribution.
 """
 import pygmt
 from eara2022 import resource, save_path
-from eara2022.utils import asia_countries, generate_tmp_file
+from eara2022.utils import generate_tmp_file
 from eara2022.utils.gcmt import collect_gcmt_information, gcmt_to_psmeca
 
 # * events cpt
@@ -57,10 +57,8 @@ gcmt_dir = resource('cmt', normal_path=True)
 
 
 def plot_base_map(fig: pygmt.Figure) -> None:
-    countries = asia_countries()
     fig.coast(water="white", resolution="l", land="GRAY81",
-              dcw=f"{countries}+p0.8p,white", lakes=["GRAY81"])
-    fig.plot(data=resource(['boundary', 'CN-border-L1.dat']), pen="0.8p,white")
+              borders=["1/0.1p,black"], lakes=["GRAY81"])
     fig.plot(data=resource(
         ['Plate_Boundaries', 'nuvel1_boundaries']), pen="2p,black")
     for slab in ['izu', 'kur', 'phi', 'ryu', 'man']:

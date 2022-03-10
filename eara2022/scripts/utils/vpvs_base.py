@@ -6,7 +6,9 @@ provide basic plotting functions for the vp, vs, vp/vs, radial anistoropy plotti
 from typing import List
 import pygmt
 from eara2022 import resource, save_path
-from eara2022.utils import asia_countries
+from eara2022.utils import get_vol_list
+
+vols = get_vol_list()
 
 
 def plot_base_map(fig: pygmt.Figure, depth: int) -> None:
@@ -19,6 +21,10 @@ def plot_base_map(fig: pygmt.Figure, depth: int) -> None:
     for slab in ['izu', 'kur', 'phi', 'ryu', 'man']:
         fig.grdcontour(
             resource(['slab2', f'{slab}_slab2_depth.grd']), interval=f"+{-depth}", pen="2.5p,magenta")
+    fig.plot(x=vols[:, 1], y=vols[:, 0],
+             style="kvolcano/0.4", pen="1p,magenta")
+    fig.coast(shorelines="1/0.2p,black",
+              borders=["1/0.1p,black"], resolution="l", area_thresh="5000")
 
 
 def plot_base(depths: List[int], cpt_series: str, cpt_reverse: bool, save_name: str, colorbar_content: str) -> None:
@@ -43,6 +49,7 @@ def plot_base(depths: List[int], cpt_series: str, cpt_reverse: bool, save_name: 
             with pygmt.config(MAP_FRAME_TYPE="plain", MAP_TICK_LENGTH="0p"):
                 fig.basemap(region=[83, 155, 10, 58],
                             projection="M?", panel=idx)
+            plot_base_map(fig, depths[idx])
 
             fig.text(position="TR", text=f"{depths[idx]} km",
                      font="24p,Helvetica,black", offset="j0.1i/0.15i")

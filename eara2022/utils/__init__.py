@@ -5,17 +5,6 @@ import numpy as np
 from eara2022 import resource
 
 
-def asia_countries() -> str:
-    """generate country names passed to -E following Chinese policy
-
-    Returns:
-        str: the concated country names in Asia except CN
-    """
-    countries = ["AF", "AM", "AZ", "BH", "BD", "BN", "KH", "CX", "CC", "IO", "GE", "ID", "IR", "IQ", "IL", "JP", "JO", "KZ", "KW", "KG", "LA", "LB",
-                 "MY", "MV", "MN", "NP", "KP", "OM", "PK", "PS", "PH", "QA", "SA", "SG", "KR", "LK", "SY", "TJ", "TH", "TR", "TM", "AE", "UZ", "VN", "YE"]
-    return ",".join(countries)
-
-
 def generate_tmp_file(content: str = "", suffix: str = "") -> str:
     """write content to a temporary file and return the file path
 

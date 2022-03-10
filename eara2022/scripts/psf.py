@@ -7,12 +7,10 @@ import numpy as np
 import pygmt
 import xarray as xr
 from eara2022 import resource, save_path
-from eara2022.utils import asia_countries
 from eara2022.utils.psf import get_perturbation_array
 
 depths = [100, 300, 500, 700, 900]
 categories = ["per", "betav", "betah", "bulkc"]
-countries = asia_countries()
 
 
 def prepare_data(psf_list_path: str, psf_nc_path: str) -> dict[str, dict[int, xr.DataArray]]:
@@ -74,9 +72,7 @@ def main() -> None:
                     ['cpt', 'dvs_6p.cpt']), series=series[icategory], continuous=True, background="o")
                 fig.grdimage(plot_data[category][dep])
                 fig.coast(shorelines="0.1p,black",
-                          dcw=f"{countries}+p0.1p,black,dashed", resolution="l", area_thresh="5000")
-                fig.plot(data=resource(
-                    ['boundary', 'CN-border-L1.dat']), pen="0.1p,black,dashed")
+                          borders=["1/0.1p,black"], resolution="l", area_thresh="5000")
                 fig.text(
                     position="TR", text=f"{dep} km", font="28p,Helvetica-Bold,black", offset="j0.1i/0.15i")
                 fig.text(position="BR", text=f"V@-{texts[icategory]}@-",
