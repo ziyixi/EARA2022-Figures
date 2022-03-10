@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "eara2022"
+version = "0.1.0"
+description = ""
+authors = ["ziyixi <ziyixi@mail.ustc.edu.cn>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "~3.9"
+pygmt = "^0.5.0"
+xarray = "^0.21.1"
+obspy = "^1.2.2"
+numpy = "~1.21"
+numba = "^0.55.1"
+pyasdf = "^0.7.5"
+seisflow = {git = "https://github.com/ziyixi/seisflow.git", rev = "master"}
+
+[tool.poetry.dev-dependencies]
+autopep8 = "^1.6.0"
+pylint = "^2.12.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
