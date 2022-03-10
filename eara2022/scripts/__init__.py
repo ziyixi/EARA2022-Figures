@@ -5,6 +5,7 @@ from .hist import main as hist_main
 from .psf import main as psf_main
 from .waveform import main as waveform_main
 from .vs import main as vs_main
+from .vp import main as vp_main
 
 __all__ = [
     'geo_map_main',
@@ -13,5 +14,6 @@ __all__ = [
     'hist_main',
     'psf_main',
     'waveform_main',
-    'vs_main'
+    'vs_main',
+    'vp_main'
 ]
