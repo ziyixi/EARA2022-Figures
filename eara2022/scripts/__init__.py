@@ -6,6 +6,8 @@ from .psf import main as psf_main
 from .waveform import main as waveform_main
 from .vs import main as vs_main
 from .vp import main as vp_main
+from .vp_vs import main as vp_vs_main
+from .radial import main as radial_main
 
 __all__ = [
     'geo_map_main',
@@ -15,5 +17,7 @@ __all__ = [
     'psf_main',
     'waveform_main',
     'vs_main',
-    'vp_main'
+    'vp_main',
+    'vp_vs_main',
+    'radial_main'
 ]

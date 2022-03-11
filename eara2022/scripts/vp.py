@@ -3,7 +3,7 @@ vp.py
 
 plot the horizontal crosssection of the model.
 """
-from .utils.vpvs_base import plot_base
+from .vpvs_base import plot_base
 from functools import partial
 import numpy as np
 

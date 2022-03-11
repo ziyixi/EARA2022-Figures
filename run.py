@@ -9,7 +9,9 @@ scripts_mapper = {
     'psf': psf_main,
     'waveform': waveform_main,
     'vs': vs_main,
-    'vp': vp_main
+    'vp': vp_main,
+    "vp_vs": vp_vs_main,
+    'radial': radial_main
 }
 
 

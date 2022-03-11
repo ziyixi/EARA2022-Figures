@@ -863,7 +863,7 @@ viz = ["matplotlib", "seaborn", "nc-time-axis"]
 [metadata]
 lock-version = "1.1"
 python-versions = "~3.9"
-content-hash = "03524766963b0fdbfe95a56a2f33f87cff185bdd9ed946a0546e60b3874ad2ad"
+content-hash = "37a0c46d957e81a745c0c3c03ca8f01f7980bfe2c9f22fb5cfcda07c80b7884f"
 
 [metadata.files]
 astroid = [
