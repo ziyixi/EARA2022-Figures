@@ -15,6 +15,7 @@ numba = "^0.55.1"
 pyasdf = "^0.7.5"
 seisflow = {git = "https://github.com/ziyixi/seisflow.git", rev = "master"}
 scipy = "^1.8.0"
+pyproj = "^3.3.0"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.6.0"

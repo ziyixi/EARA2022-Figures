@@ -8,6 +8,7 @@ from .vs import main as vs_main
 from .vp import main as vp_main
 from .vp_vs import main as vp_vs_main
 from .radial import main as radial_main
+from .slab import main as slab_main
 
 __all__ = [
     'geo_map_main',
@@ -19,5 +20,6 @@ __all__ = [
     'vs_main',
     'vp_main',
     'vp_vs_main',
-    'radial_main'
+    'radial_main',
+    'slab_main'
 ]

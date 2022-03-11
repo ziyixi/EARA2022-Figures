@@ -11,7 +11,8 @@ scripts_mapper = {
     'vs': vs_main,
     'vp': vp_main,
     "vp_vs": vp_vs_main,
-    'radial': radial_main
+    'radial': radial_main,
+    'slab': slab_main
 }
 
 
