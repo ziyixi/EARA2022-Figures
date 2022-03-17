@@ -46,7 +46,7 @@ def resource(name: Union[str, List[str]], normal_path: bool = False,  check: boo
         raise Exception(f"the input {name} doesn't have resource in {res}!")
 
 
-def save_path(fig: pygmt.Figure, name: str, fig_dir_name: str = "fig", suffix: str = "jpg") -> None:
+def save_path(fig: pygmt.Figure, name: str, fig_dir_name: str = "fig", suffix: str = "pdf") -> None:
     """get the figure save path as the same level of the package
 
     Args:
@@ -58,4 +58,4 @@ def save_path(fig: pygmt.Figure, name: str, fig_dir_name: str = "fig", suffix: s
     """
     base_path = dirname(root_path)
     fig_path = join(base_path, fig_dir_name, name+"."+suffix)
-    fig.savefig(fig_path, dpi=1000)
+    fig.savefig(fig_path)
