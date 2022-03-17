@@ -168,7 +168,7 @@ def main():
             fig.basemap(region=[-1, 21]+list(yranges[panel-2]),
                         frame=['Wbrt', 'yaf+lMisfit'], panel=panel)
 
-    fig.savefig(save_path("misfit.pdf"))
+    save_path(fig, "misfit")
 
 
 if __name__ == "__main__":

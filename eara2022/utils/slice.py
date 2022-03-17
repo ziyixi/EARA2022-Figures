@@ -9,8 +9,10 @@ import numpy as np
 import pyproj
 import xarray as xr
 from obspy.geodetics import locations2degrees
+from obspy.geodetics.base import degrees2kilometers
 from scipy.interpolate import RegularGridInterpolator
 from scipy.spatial import KDTree
+
 from . import generate_tmp_file
 
 
@@ -216,3 +218,23 @@ def gmt_lon_as_dist(start: Tuple[float, float], end: Tuple[float, float], a_inte
             f.write(
                 f"{dist_list[index]}  {type_list[index]}  {annote_list[index]} \n")
     return tmp
+
+
+def extend_line(start: Tuple[float, float], end: Tuple[float, float], length: float) -> Tuple[float, float]:
+    """Extend the current line to the specified length
+
+    Args:
+        start (Tuple[float,float]): the coordinate for the starting position
+        end (Tuple[float,float]): the coordinate for the current ending position
+        length (float): the expected new line length in degree
+
+    Returns:
+        Tuple[float,float]: the new ending position
+    """
+    startlon, startlat = start
+    endlon, endlat = end
+    g = pyproj.Geod(ellps='WGS84')
+    az, _, _ = g.inv(startlon, startlat, endlon, endlat)
+    newlon, newlat, _ = g.fwd(
+        startlon, startlat, az, degrees2kilometers(length)*1000)
+    return newlon, newlat

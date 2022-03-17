@@ -107,7 +107,7 @@ def main() -> None:
                     fig.text(position="TR", text=f"@~D@~T = {np.nanmean(old_data[phase][category]):.2f} \\261 {np.nanstd(old_data[phase][category]):.2f}",
                              font="12p,Helvetica-Bold,black", offset="j0.05i/0.30i")
 
-    fig.savefig(save_path("hist.pdf"))
+    save_path(fig, "hist")
 
 
 if __name__ == "__main__":

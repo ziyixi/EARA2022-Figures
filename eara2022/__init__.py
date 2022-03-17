@@ -1,6 +1,8 @@
 from os.path import dirname, exists, join
 from typing import List, Union
 
+import pygmt
+
 root_path = dirname(__file__)
 resource_path = join(root_path, "data")
 
@@ -44,7 +46,7 @@ def resource(name: Union[str, List[str]], normal_path: bool = False,  check: boo
         raise Exception(f"the input {name} doesn't have resource in {res}!")
 
 
-def save_path(name: str, fig_dir_name: str = "fig") -> str:
+def save_path(fig: pygmt.Figure, name: str, fig_dir_name: str = "fig", suffix: str = "jpg") -> None:
     """get the figure save path as the same level of the package
 
     Args:
@@ -55,5 +57,5 @@ def save_path(name: str, fig_dir_name: str = "fig") -> str:
         str: the saving directory
     """
     base_path = dirname(root_path)
-    fig_path = join(base_path, fig_dir_name, name)
-    return fig_path
+    fig_path = join(base_path, fig_dir_name, name+"."+suffix)
+    fig.savefig(fig_path, dpi=1000)

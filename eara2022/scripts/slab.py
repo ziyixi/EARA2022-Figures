@@ -7,13 +7,39 @@ import pygmt
 import numpy as np
 from eara2022.utils.plot import plot_place_holder
 from eara2022 import save_path
+from eara2022.utils.slice import extend_line
 
+# * configuration for the plotting
 conf = {
     "x_offset": 7.7,
     "y_offset": 5.7,
     "yabs_offset": 3,
     "ytopo_offset": 4,
 }
+
+# * lines
+all_lines = [
+    (147, 35, 142, 55, "lat"),
+    (146, 35, 136, 55, "lat"),
+    (150, 37, 130, 48, "lon"),
+    (146, 36, 126, 42, "lon"),
+    (150, 34, 130, 27, "lon"),
+    (150, 29, 130, 22, "lon"),
+    (118, 42, 138, 30, "lon"),
+    (112, 36, 132, 23, "lon")]
+
+
+def prepare_plot(idx: int, length: float) -> dict:
+    # * prepare plotting for each idx
+    startlon, startlat, endlon, endlat, thetype = all_lines[idx]
+    start = (startlon, startlat)
+    end = (endlon, endlat)
+    endlon, endlat = extend_line(start, end, length)
+    end = (endlon, endlat)
+    # * generate the plotting lons, lats for interp
+    # we should project along specific direction
+    pygmt.project(center=list(start), endpoint=list(
+        end), generate=750, unit=True)
 
 
 def generate_offset() -> dict[str, np.ndarray]:
@@ -82,7 +108,7 @@ def main() -> None:
         # * topo
         plot_topo(fig, offset, row, col)
 
-    fig.savefig(save_path("slab.pdf"))
+    save_path(fig, "slab")
 
 
 if __name__ == "__main__":

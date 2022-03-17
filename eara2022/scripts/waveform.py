@@ -193,7 +193,7 @@ def main() -> None:
                     projection="X0.8i/1.6i", frame=["lbrt"])
         fig.legend(spec=arrivals_legend, position="jTL+w1.5c+o1.0c/0.2c")
 
-    fig.savefig(save_path("waveform.pdf"))
+    save_path(fig, "waveform")
 
 
 if __name__ == "__main__":

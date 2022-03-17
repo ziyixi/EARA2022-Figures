@@ -12,7 +12,7 @@ conf = {
     'depths': np.arange(100, 700, 100),
     'cpt_series': "-0.03/0.03/0.01",
     'cpt_reverse': False,
-    'save_name': "radial.pdf",
+    'save_name': "radial",
     'colorbar_content': "(Vsh-Vsv)/Vs(%)"
 }
 

@@ -118,4 +118,4 @@ def plot_base(model_type: str, depths: List[int], cpt_series: str, cpt_reverse: 
             scale=100,
             panel=rows*cols-1-cols//2)
 
-    fig.savefig(save_path(save_name))
+    save_path(fig, save_name)

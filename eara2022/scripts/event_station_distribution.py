@@ -113,7 +113,7 @@ def main():
                     projection="X3i/3.5i", frame=["lbrt"])
         fig.legend(spec=stations_legend, position="jTL+w1.5c+o0.2c/0.2c")
 
-    fig.savefig(save_path("event_station_distribution.pdf"))
+    save_path(fig, "event_station_distribution")
 
 
 if __name__ == "__main__":

@@ -12,7 +12,7 @@ conf = {
     'depths': np.arange(100, 1000, 100),
     'cpt_series': "-0.03/0.03/0.01",
     'cpt_reverse': True,
-    'save_name': "vp_vs.pdf",
+    'save_name': "vp_vs",
     'colorbar_content': "@~d@~ln(Vp/Vs)(%)"
 }
 

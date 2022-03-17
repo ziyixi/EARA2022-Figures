@@ -82,7 +82,7 @@ def main() -> None:
                     fig.basemap(region=[82, 155, 10, 58], projection="M?", frame=[
                                 "wsen", "xaf", "yaf"], panel=[idep, icategory])
 
-    fig.savefig(save_path("psf.pdf"))
+    save_path(fig, "psf")
 
 
 if __name__ == "__main__":

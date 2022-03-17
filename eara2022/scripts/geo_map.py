@@ -146,7 +146,7 @@ def main():
                     projection="M8i", frame=["wsen", "xaf", "yaf"])
 
     # * save
-    fig.savefig(save_path("geo_map.pdf"))
+    save_path(fig, "geo_map")
 
 
 if __name__ == "__main__":

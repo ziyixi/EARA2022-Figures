@@ -130,6 +130,8 @@ dmypy.json
 
 # others
 .vscode/
+fig/*jpg
+*.DS_Store
 
 # netcdfs
 eara2022/data/
