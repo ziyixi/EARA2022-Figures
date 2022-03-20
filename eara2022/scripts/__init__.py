@@ -9,6 +9,12 @@ from .vp import main as vp_main
 from .vp_vs import main as vp_vs_main
 from .radial import main as radial_main
 from .slab import main as slab_main
+from .changbaishan_models_stw105_vs import main as changbaishan_models_stw105_vs_main
+from .changbaishan_models_stw105_vp import main as changbaishan_models_stw105_vp_main
+from .changbaishan_models_eara2022_vs import main as changbaishan_models_eara2022_vs_main
+from .changbaishan_models_eara2022_vp import main as changbaishan_models_eara2022_vp_main
+from .changbaishan_models_ak135_vs import main as changbaishan_models_ak135_vs_main
+from .changbaishan_models_ak135_vp import main as changbaishan_models_ak135_vp_main
 
 __all__ = [
     'geo_map_main',
@@ -21,5 +27,11 @@ __all__ = [
     'vp_main',
     'vp_vs_main',
     'radial_main',
-    'slab_main'
+    'slab_main',
+    'changbaishan_models_stw105_vs_main',
+    'changbaishan_models_stw105_vp_main',
+    'changbaishan_models_eara2022_vs_main',
+    'changbaishan_models_eara2022_vp_main',
+    'changbaishan_models_ak135_vs_main',
+    'changbaishan_models_ak135_vp_main',
 ]

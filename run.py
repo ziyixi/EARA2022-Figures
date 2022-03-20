@@ -12,7 +12,13 @@ scripts_mapper = {
     'vp': vp_main,
     "vp_vs": vp_vs_main,
     'radial': radial_main,
-    'slab': slab_main
+    'slab': slab_main,
+    'changbaishan_models_stw105_vs': changbaishan_models_stw105_vs_main,
+    'changbaishan_models_stw105_vp': changbaishan_models_stw105_vp_main,
+    'changbaishan_models_eara2022_vs': changbaishan_models_eara2022_vs_main,
+    'changbaishan_models_eara2022_vp': changbaishan_models_eara2022_vp_main,
+    'changbaishan_models_ak135_vs': changbaishan_models_ak135_vs_main,
+    'changbaishan_models_ak135_vp': changbaishan_models_ak135_vp_main,
 }
 
 
