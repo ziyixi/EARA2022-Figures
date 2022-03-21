@@ -88,11 +88,6 @@ def gmt_lat_as_dist(start: Tuple[float, float], end: Tuple[float, float], a_inte
     # * init parameters
     startlon, startlat = start
     endlon, endlat = end
-    starta = startlat if startlat % a_interval == 0 else (
-        startlat//a_interval+1)*a_interval
-    enda = endlat if endlat % a_interval == 0 else (
-        endlat//a_interval)*a_interval
-    a_list = np.arange(starta, a_interval+enda, a_interval).astype(int)
     # * calculate
     g = pyproj.Geod(ellps='WGS84')
     gcarc = locations2degrees(startlat, startlon, endlat, endlon)
@@ -102,6 +97,12 @@ def gmt_lat_as_dist(start: Tuple[float, float], end: Tuple[float, float], a_inte
     test_points = np.array(
         g.npts(startlon, startlat, endlon, endlat, (npts-1)*10+1))
     tree = KDTree(test_points[:, 1].reshape(test_points.shape[0], -1))
+
+    starta = startlat if startlat % a_interval == 0 else (
+        startlat//a_interval+1)*a_interval
+    enda = endlat if endlat % a_interval == 0 else (
+        endlat//a_interval)*a_interval
+    a_list = np.arange(starta, a_interval+enda, a_interval).astype(int)
     # * generate the gmt custome axis file when use lon to plot the cross-section
     num_list = []
     type_list = []
@@ -162,11 +163,6 @@ def gmt_lon_as_dist(start: Tuple[float, float], end: Tuple[float, float], a_inte
     # * init parameters
     startlon, startlat = start
     endlon, endlat = end
-    starta = startlon if startlon % a_interval == 0 else (
-        startlon//a_interval+1)*a_interval
-    enda = endlon if endlon % a_interval == 0 else (
-        endlon//a_interval)*a_interval
-    a_list = np.arange(starta, a_interval+enda, a_interval).astype(int)
     # * calculate
     g = pyproj.Geod(ellps='WGS84')
     gcarc = locations2degrees(startlat, startlon, endlat, endlon)
@@ -176,6 +172,12 @@ def gmt_lon_as_dist(start: Tuple[float, float], end: Tuple[float, float], a_inte
     test_points = np.array(
         g.npts(startlon, startlat, endlon, endlat, (npts-1)*10+1))
     tree = KDTree(test_points[:, 0].reshape(test_points.shape[0], -1))
+
+    starta = startlon if startlon % a_interval == 0 else (
+        startlon//a_interval+1)*a_interval
+    enda = endlon if endlon % a_interval == 0 else (
+        endlon//a_interval)*a_interval
+    a_list = np.arange(starta, a_interval+enda, a_interval).astype(int)
     # * generate the gmt custome axis file when use lon to plot the cross-section
     num_list = []
     type_list = []

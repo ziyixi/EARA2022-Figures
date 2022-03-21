@@ -4,13 +4,13 @@ changbaishan_models_base
 Compare models bfor the structure beneath the Changbaishan volcano, with the referencec model passed.
 """
 import numpy as np
+import pygmt
 import xarray as xr
 from eara2022 import resource, save_path
-from scipy import interpolate
-from eara2022.utils.plot import plot_place_holder
-import pygmt
 from eara2022.utils import get_vol_list
+from eara2022.utils.plot import plot_place_holder
 from eara2022.utils.slice import gmt_lon_as_dist, model_interp
+from scipy import interpolate
 
 # * settings
 np.seterr(divide='ignore')

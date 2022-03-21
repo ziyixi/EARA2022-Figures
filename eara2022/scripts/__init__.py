@@ -8,7 +8,8 @@ from .vs import main as vs_main
 from .vp import main as vp_main
 from .vp_vs import main as vp_vs_main
 from .radial import main as radial_main
-from .slab import main as slab_main
+from .slab_vs import main as slab_main_vs
+from .slab_vp import main as slab_main_vp
 from .changbaishan_models_stw105_vs import main as changbaishan_models_stw105_vs_main
 from .changbaishan_models_stw105_vp import main as changbaishan_models_stw105_vp_main
 from .changbaishan_models_eara2022_vs import main as changbaishan_models_eara2022_vs_main
@@ -27,7 +28,8 @@ __all__ = [
     'vp_main',
     'vp_vs_main',
     'radial_main',
-    'slab_main',
+    'slab_main_vs',
+    'slab_main_vp',
     'changbaishan_models_stw105_vs_main',
     'changbaishan_models_stw105_vp_main',
     'changbaishan_models_eara2022_vs_main',
