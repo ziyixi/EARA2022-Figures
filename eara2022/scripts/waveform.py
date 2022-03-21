@@ -4,6 +4,7 @@ waveform.py
 compare waveform between the old and the new model
 """
 from os.path import join
+from string import ascii_uppercase
 from typing import Dict, List, TypedDict
 
 import numpy as np
@@ -16,6 +17,7 @@ from pyasdf import ASDFDataSet
 
 # * configurations
 freq_list = ["8/40", "20/120", "40/120"]
+labels = ["T = 8 - 40 s", "T = 20 - 120 s", "T = 40 - 120 s"]
 components = {
     "Z": ["z", "surface_z"],
     "R": ["r", "surface_r"],
@@ -172,6 +174,10 @@ def main() -> None:
             fig.basemap(projection="X?/?", region=[conf["start"], conf["end"], 0, 6],
                         frame=["S", "xaf+lTime(s)"], panel=ifreq+1)
             plot_waveform(fig, prepared_info, freq)
+            fig.text(position="TL", text=labels[ifreq],
+                     font="10p,Helvetica-Bold,black", offset="j0.1i/0.1i")
+            fig.text(position="TL", text=f"({ascii_uppercase[ifreq+1]})",
+                     font="15p,Helvetica-Bold,black", offset="j-0.3i/0.2i", no_clip=True)
 
     # * the basemap
     fig.shift_origin(yshift="3i")
@@ -185,6 +191,8 @@ def main() -> None:
     fig.text(position="TL", text=f"200805071602A (Mw 6.2, 21km) [Station:{conf['sta_name']}]",
              font="10p,Helvetica-Bold,black", offset="j0.1i/-0.3i", no_clip=True)
     fig.meca(spec=meca, convention="mt", scale="0.8i")
+    fig.text(position="TL", text="(A)",
+             font="15p,Helvetica-Bold,black", offset="j-0.3i/-0.3i", no_clip=True)
 
     # * legend
     fig.shift_origin(xshift="w+0.3i")

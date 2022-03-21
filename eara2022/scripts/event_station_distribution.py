@@ -48,9 +48,55 @@ S 0.1c t 12p green4 1p 0.36c NCISP7
 S 0.1c t 12p green1 1p 0.36c NECESSArray
 S 0.1c t 12p cyan 1p 0.36c INDEPTH IV
 S 0.1c t 12p black 1p 0.36c Data obstained from
-S 0.1c t 12p - - 0.36c IRIS DMC
+S 0.1c t 12p - - 0.36c IRIS DMC, including:
 """
 stations_legend = generate_tmp_file(stations_legend_content)
+
+fdsn_legend_content = """
+S 0.1c t 12p - - 0.36c 1U, 2F, JP, XR, II, G,
+S 0.1c t 12p - - 0.36c RM, CB, PS, MM, AD, 8B,
+S 0.1c t 12p - - 0.36c KS, IU, ZV, IM, YC, MY,
+S 0.1c t 12p - - 0.36c D0, KG, KS, XF, SS, TM,
+S 0.1c t 12p - - 0.36c Z6, BO, IN, TW, XI, YM,
+S 0.1c t 12p - - 0.36c MI, HK, YP, IC
+"""
+fdsn_legend = generate_tmp_file(fdsn_legend_content)
+
+# networks
+# 1U https://www.fdsn.org/networks/detail/1U_2013/
+# 2F https://www.fdsn.org/networks/detail/2F_2009/
+# JP https://www.fdsn.org/networks/detail/JP/
+# XR https://www.fdsn.org/networks/detail/XR_2018/
+# II https://www.fdsn.org/networks/detail/II/
+# G https://www.fdsn.org/networks/detail/G/
+# RM https://www.fdsn.org/networks/detail/RM/
+# CB https://www.fdsn.org/networks/detail/CB/
+# PS https://www.fdsn.org/networks/detail/PS/
+# MM https://www.fdsn.org/networks/detail/MM/
+# AD https://www.fdsn.org/networks/detail/AD/
+# 8B http://english.igg.cas.cn/
+# KS https://www.fdsn.org/networks/detail/K5/
+# IU https://www.fdsn.org/networks/detail/IU/
+# ZV https://www.fdsn.org/networks/detail/ZV_2008/
+# IM https://www.fdsn.org/networks/detail/IM/
+# YC https://www.fdsn.org/networks/detail/YC_2006/
+# MY https://www.fdsn.org/networks/detail/MY/
+# D0 https://www.fdsn.org/networks/detail/D0/
+# KG https://www.fdsn.org/networks/detail/KG/
+# KS https://www.fdsn.org/networks/detail/KS/
+# XF https://www.fdsn.org/networks/detail/XF_2012/
+# SS https://www.fdsn.org/networks/detail/SS/
+# TM https://www.fdsn.org/networks/detail/TM/
+# Z6 https://www.fdsn.org/networks/detail/Z6_2009/ and https://www.fdsn.org/networks/detail/Z6_2011/
+# BO https://www.fdsn.org/networks/detail/BO/
+# IN https://www.fdsn.org/networks/detail/IN/
+# TW https://www.fdsn.org/networks/detail/TW/
+# XI https://www.fdsn.org/networks/detail/XI_2007/
+# YM https://www.fdsn.org/networks/detail/YM_2006/
+# MI https://www.fdsn.org/networks/detail/MI/
+# HK https://www.fdsn.org/networks/detail/HK/
+# YP https://www.fdsn.org/networks/detail/YP_2009/
+# IC https://www.fdsn.org/networks/detail/IC/
 
 # * gcmt
 gcmt_dir = resource('cmt', normal_path=True)
@@ -74,7 +120,7 @@ def main():
                  MAP_FRAME_TYPE="plain", MAP_TITLE_OFFSET="8p", FONT_TITLE="14p,black", MAP_FRAME_PEN="1p,black")
 
     # * lower
-    with fig.subplot(nrows=1, ncols=4, figsize=("17.5i", "3i"), autolabel="c)", sharey='l', sharex='b', margins=['0.15i', '0i'], frame=["WSen", "xaf", "yaf"]):
+    with fig.subplot(nrows=1, ncols=4, figsize=("17.5i", "3i"), autolabel="C)", sharey='l', sharex='b', margins=['0.15i', '0i'], frame=["WSen", "xaf", "yaf"]):
         hist_dict = collect_gcmt_information(gcmt_dir)
         # event time
         fig.histogram(data=hist_dict['time'], series=1, pen="1p",  frame=['yaf+l"Number of events"', "xa3yf1y",
@@ -88,7 +134,7 @@ def main():
 
     # * upper
     fig.shift_origin(yshift="h+1i")
-    with fig.subplot(nrows=1, ncols=2, figsize=("14i", "6i"), autolabel="a)", sharey='l', sharex='b', margins=['0.1i', '0i'], frame=["WSen", "xaf", "yaf"]):
+    with fig.subplot(nrows=1, ncols=2, figsize=("14i", "6i"), autolabel="A)", sharey='l', sharex='b', margins=['0.1i', '0i'], frame=["WSen", "xaf", "yaf"]):
         # * event map
         fig.basemap(region=[70, 160, 0, 62], projection="M?", panel=0)
         # boundaries
@@ -110,8 +156,12 @@ def main():
                     projection="X3i/5.5i", frame=["lbrt"])
         fig.legend(spec=events_legend, position="jTL+w1.5c+o0.2c/0.2c")
         fig.basemap(region=[0, 1, 0, 1],
-                    projection="X3i/3.5i", frame=["lbrt"])
+                    projection="X3i/4i", frame=["lbrt"])
         fig.legend(spec=stations_legend, position="jTL+w1.5c+o0.2c/0.2c")
+    with pygmt.config(MAP_FRAME_PEN="0.0p,white", FONT_ANNOT_PRIMARY="14p"):
+        fig.basemap(region=[0, 1, 0, 1],
+                    projection="X3i/1.2i", frame=["lbrt"])
+        fig.legend(spec=fdsn_legend, position="jTL+w1.5c+o0.2c/0.2c")
 
     save_path(fig, "event_station_distribution")
 

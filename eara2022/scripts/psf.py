@@ -71,8 +71,14 @@ def main() -> None:
                 pygmt.makecpt(cmap=resource(
                     ['cpt', 'dvs_6p.cpt']), series=series[icategory], continuous=True, background="o")
                 fig.grdimage(plot_data[category][dep])
-                fig.coast(shorelines="0.1p,black",
-                          borders=["1/0.1p,black"], resolution="l", area_thresh="5000")
+                fig.coast(shorelines="0.5p,black",
+                          borders=["1/0.5p,black"], resolution="l", area_thresh="5000")
+                fig.plot(data=resource(
+                    ["Plate_Boundaries", "nuvel1_boundaries"]), pen="2p,red")
+                fig.plot(data=resource(
+                    ["China_blocks", "block2d_mod.txt"]), pen="1p,green4")
+                fig.plot(data=resource(
+                    ["China_blocks", "China_Basins"]), pen="1p,green4")
                 fig.text(
                     position="TR", text=f"{dep} km", font="28p,Helvetica-Bold,black", offset="j0.1i/0.15i")
                 fig.text(position="BR", text=f"V@-{texts[icategory]}@-",

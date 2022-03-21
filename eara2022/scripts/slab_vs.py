@@ -38,7 +38,7 @@ copy_model: xr.DataArray = xr.open_dataset(eara2021_per_path)[
 
 # * lines
 all_lines = [
-    (147, 35, 142, 55, "lat"),
+    # (147, 35, 142, 55, "lat"),
     (146, 35, 136, 55, "lat"),
     (150, 37, 130, 48, "lon"),
     (146, 36, 126, 42, "lon"),
@@ -114,7 +114,11 @@ def plot_per(fig: pygmt.Figure, offset: dict[str, np.ndarray], row: int, col: in
 
     xlabel = "Longitude (degree)" if info['type'] == 'lon' else "Latitude (degree)"
     with pygmt.config(MAP_FRAME_TYPE="plain", MAP_TICK_LENGTH="0p"):
-        if col == 0:
+        if row == 0 and col == 0:
+            # specially designed for first image
+            fig.basemap(projection=f"X-7.5i/-2.7i",
+                        region=f"0/{conf['length']}/0/1000", frame=["WSen", f'pxc{annote}+l"{xlabel}"', 'yaf+l"Depth (km)"'])
+        elif col == 0:
             fig.basemap(projection=f"X7.5i/-2.7i",
                         region=f"0/{conf['length']}/0/1000", frame=["WSen", f'pxc{annote}+l"{xlabel}"', 'yaf+l"Depth (km)"'])
         else:
@@ -143,16 +147,24 @@ def plot_per(fig: pygmt.Figure, offset: dict[str, np.ndarray], row: int, col: in
              y=y_650, pen="0.5p,black,dashed")
 
     with pygmt.config(MAP_FRAME_TYPE="inside", MAP_TICK_LENGTH_PRIMARY="10p"):
-        fig.basemap(projection=f"X7.5i/-2.7i",
-                    region=f"0/{conf['length']}/0/1000", frame=["wsen", f'pxc{annote}', "yaf"])
+        if row == 0 and col == 0:
+            fig.basemap(projection=f"X-7.5i/-2.7i",
+                        region=f"0/{conf['length']}/0/1000", frame=["wsen", f'pxc{annote}', "yaf"])
+        else:
+            fig.basemap(projection=f"X7.5i/-2.7i",
+                        region=f"0/{conf['length']}/0/1000", frame=["wsen", f'pxc{annote}', "yaf"])
 
 
 def plot_abs(fig: pygmt.Figure, offset: dict[str, np.ndarray], row: int, col: int, info: dict, annote: str, eara_abs: xr.DataArray) -> None:
     fig.shift_origin(xshift=offset['x'][row]
                      [col], yshift=offset['yabs'][row][col])
     with pygmt.config(MAP_FRAME_TYPE="plain", MAP_TICK_LENGTH="0p"):
-        fig.basemap(projection=f"X7.5i/-0.7i",
-                    region=f"0/{conf['length']}/0/100", frame=["wsen", f'pxc{annote}', "ya100f50"])
+        if row == 0 and col == 0:
+            fig.basemap(projection=f"X-7.5i/-0.7i",
+                        region=f"0/{conf['length']}/0/100", frame=["wsen", f'pxc{annote}', "ya100f50"])
+        else:
+            fig.basemap(projection=f"X7.5i/-0.7i",
+                        region=f"0/{conf['length']}/0/100", frame=["wsen", f'pxc{annote}', "ya100f50"])
     cross_section = model_interp(
         eara_abs, info['lons'], info['lats'], info['deps_abs'])
     cross_section_xarray = xr.DataArray(cross_section, dims=(
@@ -160,16 +172,24 @@ def plot_abs(fig: pygmt.Figure, offset: dict[str, np.ndarray], row: int, col: in
     fig.grdimage(cross_section_xarray.T)
 
     with pygmt.config(MAP_FRAME_TYPE="inside", MAP_TICK_LENGTH_PRIMARY="10p"):
-        fig.basemap(projection=f"X7.5i/-0.7i",
-                    region=f"0/{conf['length']}/0/100", frame=["wsen", f'pxc{annote}', "ya100f50"])
+        if row == 0 and col == 0:
+            fig.basemap(projection=f"X-7.5i/-0.7i",
+                        region=f"0/{conf['length']}/0/100", frame=["wsen", f'pxc{annote}', "ya100f50"])
+        else:
+            fig.basemap(projection=f"X7.5i/-0.7i",
+                        region=f"0/{conf['length']}/0/100", frame=["wsen", f'pxc{annote}', "ya100f50"])
 
 
 def plot_topo(fig: pygmt.Figure, offset: dict[str, np.ndarray], row: int, col: int, info: dict, annote: str, grd_topo: xr.DataArray) -> None:
     fig.shift_origin(xshift=offset['x'][row]
                      [col], yshift=offset['ytopo'][row][col])
     with pygmt.config(MAP_FRAME_TYPE="plain", MAP_TICK_LENGTH="0p"):
-        fig.basemap(projection=f"X7.5i/1i",
-                    region=f"0/{conf['length']}/-8000/4000", frame=["lsrn", 'ya2500f', f'pxc{annote}'])
+        if row == 0 and col == 0:
+            fig.basemap(projection=f"X-7.5i/1i",
+                        region=f"0/{conf['length']}/-8000/4000", frame=["lsrn", 'ya2500f', f'pxc{annote}'])
+        else:
+            fig.basemap(projection=f"X7.5i/1i",
+                        region=f"0/{conf['length']}/-8000/4000", frame=["lsrn", 'ya2500f', f'pxc{annote}'])
 
     grd_interp_result = topo_interp(
         grd_topo, info['lons'], info['lats'])
@@ -182,21 +202,16 @@ def plot_topo(fig: pygmt.Figure, offset: dict[str, np.ndarray], row: int, col: i
         info['lons'])), y=grd_interp_result_above, pen="black", close="+y0", color="gray")
     fig.plot(x=np.linspace(0, conf['length'], len(
         info['lons'])), y=grd_interp_result_below, pen="black", close="+y0", color="lightblue")
-    fig.text(x=2, y=2000, text=string.ascii_uppercase[row*3+col],
-             font="24p,Helvetica-Bold,black", offset="j0.1i/0.3i")
+    if row==0 and col==0:
+        fig.text(x=23, y=2000, text=string.ascii_uppercase[row*3+col],
+                font="24p,Helvetica-Bold,black", offset="j0.1i/0.3i")
+    else:
+        fig.text(x=2, y=2000, text=string.ascii_uppercase[row*3+col],
+                font="24p,Helvetica-Bold,black", offset="j0.1i/0.3i")
 
 
 def plot_text(fig: pygmt.Figure, idx: int) -> None:
     if idx == 0:
-        fig.text(x=4, y=-3000, text=f"Pacific Ocean",
-                 font="16p,Helvetica,red")
-        fig.text(x=9, y=2000, text=f"Hokkaido",
-                 font="16p,Helvetica,red")
-        fig.text(x=12, y=-1000, text=f"Sea of Okhotsk",
-                 font="16p,Helvetica,red")
-        fig.text(x=15, y=2000, text=f"Sakhalin",
-                 font="16p,Helvetica,red")
-    if idx == 1:
         fig.text(x=3, y=-3000, text=f"Pacific Ocean",
                  font="16p,Helvetica,red")
         fig.text(x=9, y=2000, text=f"Hokkaido",
@@ -205,7 +220,7 @@ def plot_text(fig: pygmt.Figure, idx: int) -> None:
                  font="16p,Helvetica,red")
         fig.text(x=17, y=2000, text=f"Siberia",
                  font="16p,Helvetica,red")
-    if idx == 2:
+    if idx == 1:
         fig.text(x=8, y=2000, text=f"Siberia",
                  font="16p,Helvetica,red")
         fig.text(x=14, y=-1000, text=f"Japan Sea",
@@ -214,7 +229,7 @@ def plot_text(fig: pygmt.Figure, idx: int) -> None:
                  font="16p,Helvetica,red")
         fig.text(x=22, y=-3000, text=f"Pacific Ocean",
                  font="16p,Helvetica,red")
-    if idx == 3:
+    if idx == 2:
         fig.plot(x=9, y=1000, style="kvolcano/0.3",
                  color="red")
         fig.plot(x=10.5, y=1500, style="kvolcano/0.3",
@@ -227,7 +242,7 @@ def plot_text(fig: pygmt.Figure, idx: int) -> None:
                  font="16p,Helvetica,red")
         fig.text(x=22, y=-3000, text=f"Pacific Ocean",
                  font="16p,Helvetica,red")
-    if idx == 4:
+    if idx == 3:
         fig.text(x=6, y=-1000, text=f"Ryukyu Trench",
                  font="16p,Helvetica,red")
         fig.text(x=12, y=-3000, text=f"Philippine Sea",
@@ -236,14 +251,14 @@ def plot_text(fig: pygmt.Figure, idx: int) -> None:
                  font="16p,Helvetica,red")
         fig.text(x=22, y=-2000, text=f"Pacific Ocean",
                  font="16p,Helvetica,red")
-    if idx == 5:
+    if idx == 4:
         fig.text(x=12, y=-3000, text=f"Philippine Sea",
                  font="16p,Helvetica,red")
         fig.text(x=18.5, y=-4000, text=f"Izu-Bonin Trench",
                  font="16p,Helvetica,red")
         fig.text(x=22, y=-1500, text=f"Pacific Ocean",
                  font="16p,Helvetica,red")
-    if idx == 6:
+    if idx == 5:
         fig.text(x=3, y=-3000, text=f"North China Block",
                  font="16p,Helvetica,red")
         fig.text(x=6, y=-500, text=f"East China Sea",
@@ -252,7 +267,7 @@ def plot_text(fig: pygmt.Figure, idx: int) -> None:
                  font="16p,Helvetica,red")
         fig.text(x=20, y=-2000, text=f"Philippine Sea",
                  font="16p,Helvetica,red")
-    if idx == 7:
+    if idx == 6:
         fig.text(x=3.5, y=-1000, text=f"Taihang Mountains",
                  font="16p,Helvetica,red")
         fig.text(x=5, y=2000, text=f"North China Block",
@@ -302,7 +317,7 @@ def main() -> None:
         resolution="02m", region=[83, 160, 10, 60])
 
     # * plot figures
-    for idx in range(8):
+    for idx in range(7):
         row, col = divmod(idx, 3)
         info = prepare_plot(idx, length=conf['length'])
         if info['type'] == 'lat':
@@ -334,11 +349,11 @@ def main() -> None:
     plot_base_map(fig)
     # plot arrows
     style = "=0.2i+s+e+a30+gblue+h0.5+p0.3i,blue"
-    for idx in range(8):
+    for idx in range(7):
         info = prepare_plot(idx, length=conf['length'])
         fig.plot(data=[list(info['end'])+list(info['start'])],
                  style=style, pen="0.05i,blue")
-        if idx not in [4, 5]:
+        if idx not in [3, 4]:
             fig.text(x=info['lons'][len(info['lons'])//3*2], y=info['lats'][len(info['lats'])//3*2],
                      text=string.ascii_uppercase[idx], fill="white", font="14p,Helvetica-Bold,black")
         else:
@@ -355,7 +370,7 @@ def main() -> None:
                   series=f"-3/3/1", continuous=True, background="o")
     fig.colorbar(
         # justified inside map frame (j) at Top Center (TC)
-        position="JBC+w6i/0.8c+h+o1i/2c",
+        position="JBC+w6i/0.8c+h+o8.7i/-3.5i",
         box=False,
         frame=["a1f", f"+L@~d@~ln{conf['cbar']}(%)"],
         scale=1)
@@ -364,7 +379,7 @@ def main() -> None:
                   continuous=True, background="o")
     fig.colorbar(
         # justified inside map frame (j) at Top Center (TC)
-        position="JBC+w6i/0.8c+h+o8.7i/2c",
+        position="JBC+w6i/0.8c+h+o8.7i/-1.5i",
         box=False,
         frame=["a0.3f", f"+L{conf['cbar']}(km/s)"],
         scale=1)
