@@ -20,6 +20,8 @@ scripts_mapper = {
     'changbaishan_models_eara2022_vp': changbaishan_models_eara2022_vp_main,
     'changbaishan_models_ak135_vs': changbaishan_models_ak135_vs_main,
     'changbaishan_models_ak135_vp': changbaishan_models_ak135_vp_main,
+    'con_vs': con_vs_main,
+    'con_vp': con_vp_main,
 }
 
 
