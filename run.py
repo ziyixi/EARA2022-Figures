@@ -22,6 +22,8 @@ scripts_mapper = {
     'changbaishan_models_ak135_vp': changbaishan_models_ak135_vp_main,
     'con_vs': con_vs_main,
     'con_vp': con_vp_main,
+    'vol_vs': vol_vs_main,
+    'vol_vp': vol_vp_main
 }
 
 

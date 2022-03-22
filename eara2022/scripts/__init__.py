@@ -18,6 +18,8 @@ from .changbaishan_models_ak135_vs import main as changbaishan_models_ak135_vs_m
 from .changbaishan_models_ak135_vp import main as changbaishan_models_ak135_vp_main
 from .con_vs import main as con_vs_main
 from .con_vp import main as con_vp_main
+from .vol_vs import main as vol_vs_main
+from .vol_vp import main as vol_vp_main
 
 __all__ = [
     'geo_map_main',
@@ -40,4 +42,6 @@ __all__ = [
     'changbaishan_models_ak135_vp_main',
     'con_vs_main',
     'con_vp_main',
+    'vol_vs_main',
+    'vol_vp_main'
 ]

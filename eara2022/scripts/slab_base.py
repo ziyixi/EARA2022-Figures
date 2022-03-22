@@ -1,4 +1,5 @@
 import string
+from functools import cache
 
 import numpy as np
 import pygmt
@@ -47,6 +48,7 @@ def slab_plot_base(conf: dict) -> None:
         mask_xarray.data = mask
         return mask_xarray
 
+    @cache
     def prepare_plot(idx: int, length: float) -> dict:
         # * prepare plotting for each idx
         startlon, startlat, endlon, endlat, thetype = all_lines[idx]
