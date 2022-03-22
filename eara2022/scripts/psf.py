@@ -13,9 +13,10 @@ depths = [100, 300, 500, 700, 900]
 categories = ["per", "betav", "betah", "bulkc"]
 
 
-def prepare_data(psf_list_path: str, psf_nc_path: str) -> dict[str, dict[int, xr.DataArray]]:
+def prepare_data(psf_list_path: str, psf_nc_path: str, mask_path: str) -> dict[str, dict[int, xr.DataArray]]:
     per_array = get_perturbation_array(psf_list_path, psf_nc_path)
     data = xr.open_dataset(psf_nc_path)
+    nzcc_mask = np.load(mask_path)
     # * generate xarray
     data_per = data["bulk_c_kernel"].copy()
     data_per.data[:, :, :] = per_array[:, :, :]
@@ -25,6 +26,10 @@ def prepare_data(psf_list_path: str, psf_nc_path: str) -> dict[str, dict[int, xr
     data_betah.data[data_betah.data > 9e6] = np.nan
     data_bulkc = data["bulk_c_kernel"]
     data_bulkc.data[data_bulkc.data > 9e6] = np.nan
+    # * mask
+    data_betav.data[nzcc_mask < 0.3] = np.nan
+    data_betah.data[nzcc_mask < 0.3] = np.nan
+    data_bulkc.data[nzcc_mask < 0.3] = np.nan
     # * interp
     hlat = np.linspace(10, 58, 201)
     hlat = xr.DataArray(hlat, dims='hlat', coords={'hlat': hlat})
@@ -56,8 +61,10 @@ def main() -> None:
     # eara2022/resource/model_files/psf_vsv_bulk_iter19.nc
     psf_nc_path = resource(
         ['model_files', 'psf_vsv_bulk_iter19.nc'], normal_path=True)
+    mask_path = resource(['model_files', 'mask.npy'], normal_path=True)
+
     plot_data = prepare_data(
-        psf_list_path=psf_list_path, psf_nc_path=psf_nc_path)
+        psf_list_path=psf_list_path, psf_nc_path=psf_nc_path, mask_path=mask_path)
 
     series = ["-0.01/0.01/0.01", "-0.0000003/0.0000003/0.0000001",
               "-0.0000003/0.0000003/0.0000001", "-0.0000003/0.0000003/0.0000001"]
@@ -69,7 +76,7 @@ def main() -> None:
                     fig.basemap(region=[82, 155, 10, 58],
                                 projection="M?", panel=[idep, icategory])
                 pygmt.makecpt(cmap=resource(
-                    ['cpt', 'dvs_6p.cpt']), series=series[icategory], continuous=True, background="o")
+                    ['cpt', 'dvs_6p_nan.cpt']), series=series[icategory], continuous=True, background="o")
                 fig.grdimage(plot_data[category][dep])
                 fig.coast(shorelines="0.5p,black",
                           borders=["1/0.5p,black"], resolution="l", area_thresh="5000")
