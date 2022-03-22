@@ -44,10 +44,7 @@ def prepare_model(data: xr.Dataset, nzcc_mask: np.ndarray, model_type: str) -> x
         raise Exception(
             f"{model_type} is not a supported model_type. Try to use vp, vs, vp_vs, or radial.")
 
-    for ilon in range(MODEL_SHAPE[0]):
-        for ilat in range(MODEL_SHAPE[1]):
-            if(nzcc_mask[ilon, ilat] == True):
-                to_interp_data.data[ilon, ilat, :] = np.nan
+    to_interp_data.data[nzcc_mask < 0.3] = np.nan
     return to_interp_data
 
 
@@ -81,15 +78,16 @@ def plot_base(model_type: str, depths: List[int], cpt_series: str, cpt_reverse: 
     else:
         data: xr.Dataset = xr.open_dataset(
             resource(['model_files', 'eara2021_per_ref.nc'], normal_path=True))
-    nzcc_mask: np.ndarray = np.load(
-        resource(['model_files', 'mask_psf_100km_050.npy'], normal_path=True))
+    # load mask
+    mask_path = resource(['model_files', 'mask.npy'], normal_path=True)
+    nzcc_mask = np.load(mask_path)
     to_interp_data = prepare_model(data, nzcc_mask, model_type)
 
     # * figure
     fig = pygmt.Figure()
     pygmt.config(FONT_LABEL="18p", MAP_LABEL_OFFSET="18p",
                  FONT_ANNOT_PRIMARY="18p", MAP_FRAME_TYPE="plain")
-    pygmt.makecpt(cmap=resource(['cpt', 'dvs_6p.cpt']),
+    pygmt.makecpt(cmap=resource(['cpt', 'dvs_6p_nan.cpt']),
                   series=cpt_series, continuous=True, background="o", reverse=cpt_reverse)
 
     fig.shift_origin(yshift="5i")
