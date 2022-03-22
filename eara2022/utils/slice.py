@@ -72,6 +72,30 @@ def topo_interp(to_interp_data: xr.DataArray, lons: np.ndarray, lats: np.ndarray
     return grd_interp_result
 
 
+def slab_interp(to_interp_data: xr.DataArray, lons: np.ndarray, lats: np.ndarray) -> np.ndarray:
+    """generate the depth of the slab interface along a (lons,lats) track
+
+    Args:
+        to_interp_data (xr.DataArray): the loaded slab interface
+        lons (np.ndarray): the lons track
+        lats (np.ndarray): the lats track
+
+    Returns:
+        np.ndarray: the depth track
+    """
+    profile_list = []
+    for ilon in range(len(lons)):
+        profile_list.append([lons[ilon], lats[ilon]])
+    # the names and the transverse might be adjusted, this is the gmt format
+    grd_interpolating_function = RegularGridInterpolator(
+        (to_interp_data.x.data, to_interp_data.y.data), -to_interp_data.z.data.T, bounds_error=False)
+
+    grd_interp_result = grd_interpolating_function(profile_list)
+
+    # * return the 1d array
+    return grd_interp_result
+
+
 def gmt_lat_as_dist(start: Tuple[float, float], end: Tuple[float, float], a_interval: float, g_interval: float, npts: int = 1001) -> str:
     """Generate a lebel tmp file for pxc[file name], so we can have evenly sampled ticks in great circle represented as lat/lon
 

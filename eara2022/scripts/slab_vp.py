@@ -12,7 +12,8 @@ from eara2022 import resource, save_path
 from eara2022.utils import get_vol_list
 from eara2022.utils.plot import plot_place_holder
 from eara2022.utils.slice import (extend_line, gmt_lat_as_dist,
-                                  gmt_lon_as_dist, model_interp, topo_interp)
+                                  gmt_lon_as_dist, model_interp, slab_interp,
+                                  topo_interp)
 
 # * configuration for the plotting
 conf = {
@@ -44,7 +45,7 @@ all_lines = [
     (146, 36, 126, 42, "lon"),
     (150, 34, 130, 27, "lon"),
     (150, 29, 130, 22, "lon"),
-    (118, 42, 138, 30, "lon"),
+    (118, 40, 138, 28, "lon"),
     (112, 36, 132, 23, "lon")]
 
 
@@ -145,6 +146,14 @@ def plot_per(fig: pygmt.Figure, offset: dict[str, np.ndarray], row: int, col: in
              y=y_410, pen="0.5p,black,dashed")
     fig.plot(x=np.linspace(0, conf['length'], len(info['lons'])),
              y=y_650, pen="0.5p,black,dashed")
+
+    # slab 2.0 contour
+    for slab in ['izu', 'kur', 'phi', 'ryu', 'man']:
+        slab_model = xr.open_dataset(
+            resource(['slab2', f'{slab}_slab2_depth.grd'], normal_path=True))
+        slab_deps = slab_interp(slab_model, info['lons'], info['lats'])
+        fig.plot(x=np.linspace(0, conf['length'], len(info['lons'])),
+                 y=slab_deps, pen="1.5p,magenta")
 
     with pygmt.config(MAP_FRAME_TYPE="inside", MAP_TICK_LENGTH_PRIMARY="10p"):
         if row == 0 and col == 0:
@@ -353,7 +362,7 @@ def main() -> None:
         info = prepare_plot(idx, length=conf['length'])
         fig.plot(data=[list(info['end'])+list(info['start'])],
                  style=style, pen="0.05i,blue")
-        if idx not in [3, 4]:
+        if idx in [3]:
             fig.text(x=info['lons'][len(info['lons'])//3*2], y=info['lats'][len(info['lats'])//3*2],
                      text=string.ascii_uppercase[idx], fill="white", font="14p,Helvetica-Bold,black")
         else:
