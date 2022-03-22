@@ -326,7 +326,7 @@ def main() -> None:
         resolution="02m", region=[83, 160, 10, 60])
 
     # * plot figures
-    for idx in range(7):
+    for idx in range(len(all_lines)):
         row, col = divmod(idx, 3)
         info = prepare_plot(idx, length=conf['length'])
         if info['type'] == 'lat':
