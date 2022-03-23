@@ -67,13 +67,6 @@ def load_ak135(parameter: str) -> xr.DataArray:
     return ak135_abs_data
 
 
-def smooth_model(model: xr.DataArray) -> xr.DataArray:
-    model[:, :, 41] = (model[:, :, 40]+model[:, :, 42])/2
-    model[:, :, 65] = (3*model[:, :, 64]+1*model[:, :, 67])/4
-    model[:, :, 66] = (1*model[:, :, 64]+3*model[:, :, 67])/4
-    return model
-
-
 def plot_base_map(fig: pygmt.Figure, depth: int) -> None:
     fig.plot(data=resource(
         ["Plate_Boundaries", "nuvel1_boundaries"]), pen="1.8p,green4")

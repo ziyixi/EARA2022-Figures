@@ -5,7 +5,11 @@ from .hist import main as hist_main
 from .psf import main as psf_main
 from .waveform import main as waveform_main
 from .vs_eara2022 import main as vs_eara2022_main
+from .vs_ak135 import main as vs_ak135_main
+from .vs_stw105 import main as vs_stw105_main
 from .vp_eara2022 import main as vp_eara2022_main
+from .vp_ak135 import main as vp_ak135_main
+from .vp_stw105 import main as vp_stw105_main
 from .vp_vs import main as vp_vs_main
 from .radial import main as radial_main
 from .slab_vs import main as slab_main_vs
@@ -29,7 +33,11 @@ __all__ = [
     'psf_main',
     'waveform_main',
     'vs_eara2022_main',
+    'vs_ak135_main',
+    'vs_stw105_main',
     'vp_eara2022_main',
+    'vp_ak135_main',
+    'vp_stw105_main',
     'vp_vs_main',
     'radial_main',
     'slab_main_vs',
