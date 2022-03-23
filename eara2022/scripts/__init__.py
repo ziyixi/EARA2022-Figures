@@ -4,8 +4,8 @@ from .misfit import main as misfit_main
 from .hist import main as hist_main
 from .psf import main as psf_main
 from .waveform import main as waveform_main
-from .vs import main as vs_main
-from .vp import main as vp_main
+from .vs_eara2022 import main as vs_eara2022_main
+from .vp_eara2022 import main as vp_eara2022_main
 from .vp_vs import main as vp_vs_main
 from .radial import main as radial_main
 from .slab_vs import main as slab_main_vs
@@ -28,8 +28,8 @@ __all__ = [
     'hist_main',
     'psf_main',
     'waveform_main',
-    'vs_main',
-    'vp_main',
+    'vs_eara2022_main',
+    'vp_eara2022_main',
     'vp_vs_main',
     'radial_main',
     'slab_main_vs',

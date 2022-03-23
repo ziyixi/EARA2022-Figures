@@ -3,9 +3,11 @@ radial.py
 
 plot the horizontal crosssection of the model.
 """
-from .vpvs_base import plot_base
 from functools import partial
+
 import numpy as np
+
+from .vpvs_base import plot_base
 
 conf = {
     'model_type': "radial",

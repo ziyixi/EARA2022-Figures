@@ -1,8 +1,10 @@
-""" 
+"""
 vpvs_base.py
 
 provide basic plotting functions for the vp, vs, vp/vs, radial anistoropy plotting.
 """
+from json import load
+from string import ascii_uppercase
 from typing import List
 
 import numpy as np
@@ -10,11 +12,66 @@ import pygmt
 import xarray as xr
 from eara2022 import resource, save_path
 from eara2022.utils import get_vol_list
+from scipy import interpolate
 from scipy.ndimage import gaussian_filter
-from string import ascii_uppercase
+
+# * settings
+np.seterr(divide='ignore')
+np.seterr(invalid='ignore')
+
+# * several paths for the models, some may unused
+eara2021_abs_path = resource(['model_files', 'eara2021.nc'], normal_path=True)
+eara2021_per_path = resource(
+    ['model_files', 'eara2021_per_ref.nc'], normal_path=True)
+stw105_path = resource(['model_files', 'stw105.txt'], normal_path=True)
+ak135_path = resource(['model_files', 'AK135F_AVG.csv'], normal_path=True)
+
+# * load models with the respect to certain reference model
+copy_model: xr.DataArray = xr.open_dataset(eara2021_per_path)["vs"]
 
 vols = get_vol_list()
 MODEL_SHAPE = [421, 281, 201]
+
+
+def load_stw105(parameter: str) -> xr.DataArray:
+    stw105 = np.loadtxt(stw105_path)
+    r = stw105[:, 0]
+    if parameter == "vs":
+        v_v = stw105[:, 3]
+        v_h = stw105[:, 7]
+        v = np.sqrt((2 * v_v ** 2 + v_h ** 2) / 3)
+    elif parameter == "vp":
+        v_v = stw105[:, 2]
+        v_h = stw105[:, 6]
+        v = np.sqrt((v_v ** 2 + 4*v_h ** 2) / 5)
+    f = interpolate.interp1d((6371000-r)/1000, v)
+    stw105_depth = f(np.arange(0, 2005, 10))/1000
+    stw105_abs_data = copy_model.copy()
+    for index in range(201):
+        stw105_abs_data.data[:, :, index] = stw105_depth[index]
+    return stw105_abs_data
+
+
+def load_ak135(parameter: str) -> xr.DataArray:
+    ak135 = np.loadtxt(ak135_path, delimiter=',')
+    h = ak135[:, 0]
+    if parameter == "vp":
+        v = ak135[:, 2]
+    else:
+        v = ak135[:, 3]
+    f = interpolate.interp1d(h, v)
+    ak135_depth = f(np.arange(0, 2005, 10))
+    ak135_abs_data = copy_model.copy()
+    for index in range(201):
+        ak135_abs_data.data[:, :, index] = ak135_depth[index]
+    return ak135_abs_data
+
+
+def smooth_model(model: xr.DataArray) -> xr.DataArray:
+    model[:, :, 41] = (model[:, :, 40]+model[:, :, 42])/2
+    model[:, :, 65] = (3*model[:, :, 64]+1*model[:, :, 67])/4
+    model[:, :, 66] = (1*model[:, :, 64]+3*model[:, :, 67])/4
+    return model
 
 
 def plot_base_map(fig: pygmt.Figure, depth: int) -> None:
@@ -62,7 +119,7 @@ def prepare_cross_section(to_interp_data: xr.DataArray, depth: int, model_type: 
     return plot_data
 
 
-def plot_base(model_type: str, depths: List[int], cpt_series: str, cpt_reverse: bool, save_name: str, colorbar_content: str) -> None:
+def plot_base(model_type: str, depths: List[int], cpt_series: str, cpt_reverse: bool, save_name: str, colorbar_content: str, ref='eara2022') -> None:
     # * configurations
     sizes = len(depths)
     cols = 3
@@ -74,10 +131,26 @@ def plot_base(model_type: str, depths: List[int], cpt_series: str, cpt_reverse: 
     # * load ndarray
     if model_type == "radial":
         data: xr.Dataset = xr.open_dataset(
-            resource(['model_files', 'eara2021.nc'], normal_path=True))
+            eara2021_abs_path)
     else:
-        data: xr.Dataset = xr.open_dataset(
-            resource(['model_files', 'eara2021_per_ref.nc'], normal_path=True))
+        if ref == 'eara2022':
+            data: xr.Dataset = xr.open_dataset(
+                eara2021_per_path)
+        else:
+            # other models are only for vs, vp, and vp_vs
+            data: xr.Dataset = xr.open_dataset(
+                eara2021_abs_path)
+            if ref == 'stw105':
+                ref_model_vp = load_stw105('vp')
+                ref_model_vs = load_stw105('vs')
+            elif ref == 'ak135':
+                ref_model_vp = load_ak135('vp')
+                ref_model_vs = load_ak135('vs')
+            else:
+                raise Exception('ref is not supported.')
+            data['vp'].data = data['vp'].data/ref_model_vp.data-1
+            data['vs'].data = data['vs'].data/ref_model_vs.data-1
+
     # load mask
     mask_path = resource(['model_files', 'mask.npy'], normal_path=True)
     nzcc_mask = np.load(mask_path)
