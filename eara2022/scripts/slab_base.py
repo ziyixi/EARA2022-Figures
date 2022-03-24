@@ -10,6 +10,7 @@ from eara2022.utils.plot import plot_place_holder
 from eara2022.utils.slice import (extend_line, gmt_lat_as_dist,
                                   gmt_lon_as_dist, model_interp, slab_interp,
                                   topo_interp)
+from scipy import interpolate
 
 
 def slab_plot_base(conf: dict) -> None:
@@ -22,6 +23,9 @@ def slab_plot_base(conf: dict) -> None:
         ['model_files', 'mask.npy'], normal_path=True)
     copy_model: xr.DataArray = xr.open_dataset(eara2021_per_path)[
         conf['parameter']]
+    stw105_path = resource(['model_files', 'stw105.txt'], normal_path=True)
+    ak135_path = resource(['model_files', 'AK135F_AVG.csv'], normal_path=True)
+    copy_model: xr.DataArray = xr.open_dataset(eara2021_per_path)["vs"]
 
     # * lines
     all_lines = [
@@ -33,6 +37,44 @@ def slab_plot_base(conf: dict) -> None:
         (150, 29, 130, 22, "lon"),
         (118, 40, 138, 28, "lon"),
         (112, 36, 132, 23, "lon")]
+
+    def load_stw105(parameter: str) -> xr.DataArray:
+        stw105 = np.loadtxt(stw105_path)
+        r = stw105[:, 0]
+        if parameter == "vs":
+            v_v = stw105[:, 3]
+            v_h = stw105[:, 7]
+            v = np.sqrt((2 * v_v ** 2 + v_h ** 2) / 3)
+        elif parameter == "vp":
+            v_v = stw105[:, 2]
+            v_h = stw105[:, 6]
+            v = np.sqrt((v_v ** 2 + 4*v_h ** 2) / 5)
+        f = interpolate.interp1d((6371000-r)/1000, v)
+        stw105_depth = f(np.arange(0, 2005, 10))/1000
+        stw105_abs_data = copy_model.copy()
+        for index in range(201):
+            stw105_abs_data.data[:, :, index] = stw105_depth[index]
+        return stw105_abs_data
+
+    def load_ak135(parameter: str) -> xr.DataArray:
+        ak135 = np.loadtxt(ak135_path, delimiter=',')
+        h = ak135[:, 0]
+        if parameter == "vp":
+            v = ak135[:, 2]
+        else:
+            v = ak135[:, 3]
+        f = interpolate.interp1d(h, v)
+        ak135_depth = f(np.arange(0, 2005, 10))
+        ak135_abs_data = copy_model.copy()
+        for index in range(201):
+            ak135_abs_data.data[:, :, index] = ak135_depth[index]
+        return ak135_abs_data
+
+    def smooth_model(model: xr.DataArray) -> xr.DataArray:
+        model[:, :, 41] = (model[:, :, 40]+model[:, :, 42])/2
+        model[:, :, 65] = (3*model[:, :, 64]+1*model[:, :, 67])/4
+        model[:, :, 66] = (1*model[:, :, 64]+3*model[:, :, 67])/4
+        return model
 
     def load_eara2021_per(parameter: str) -> xr.DataArray:
         eara2021_ref = xr.open_dataset(eara2021_per_path)[parameter]
@@ -294,8 +336,22 @@ def slab_plot_base(conf: dict) -> None:
 
     # prepare plotting
     mask = load_mask()
-    eara = load_eara2021_per(conf['parameter'])
     eara_abs = load_eara2021_abs(conf['parameter'])
+
+    # * different reference models
+    if conf['ref'] == 'eara2022':
+        eara = load_eara2021_per(conf['parameter'])
+    else:
+        if conf['ref'] == 'stw105':
+            ref_model = load_stw105(conf['parameter'])
+        elif conf['ref'] == 'ak135':
+            ref_model = load_ak135(conf['parameter'])
+        else:
+            raise Exception(f"unknown reference model: {conf['ref']}")
+        eara = eara_abs.copy()
+        eara.data = (eara.data/ref_model.data-1)*100
+        smooth_model(eara)
+
     eara.data[mask.data < 0.3] = np.nan
     eara_abs.data[mask.data < 0.3] = np.nan
     grd_topo = pygmt.datasets.load_earth_relief(

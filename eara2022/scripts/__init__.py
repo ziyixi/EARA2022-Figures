@@ -12,18 +12,30 @@ from .vp_ak135 import main as vp_ak135_main
 from .vp_stw105 import main as vp_stw105_main
 from .vp_vs import main as vp_vs_main
 from .radial import main as radial_main
-from .slab_vs import main as slab_main_vs
-from .slab_vp import main as slab_main_vp
+from .slab_vs_eara2022 import main as slab_vs_eara2022_main
+from .slab_vs_ak135 import main as slab_vs_ak135_main
+from .slab_vs_stw105 import main as slab_vs_stw105_main
+from .slab_vp_eara2022 import main as slab_vp_eara2022_main
+from .slab_vp_ak135 import main as slab_vp_ak135_main
+from .slab_vp_stw105 import main as slab_vp_stw105_main
 from .changbaishan_models_stw105_vs import main as changbaishan_models_stw105_vs_main
 from .changbaishan_models_stw105_vp import main as changbaishan_models_stw105_vp_main
 from .changbaishan_models_eara2022_vs import main as changbaishan_models_eara2022_vs_main
 from .changbaishan_models_eara2022_vp import main as changbaishan_models_eara2022_vp_main
 from .changbaishan_models_ak135_vs import main as changbaishan_models_ak135_vs_main
 from .changbaishan_models_ak135_vp import main as changbaishan_models_ak135_vp_main
-from .con_vs import main as con_vs_main
-from .con_vp import main as con_vp_main
-from .vol_vs import main as vol_vs_main
-from .vol_vp import main as vol_vp_main
+from .con_vs_eara2022 import main as con_vs_eara2022_main
+from .con_vs_ak135 import main as con_vs_ak135_main
+from .con_vs_stw105 import main as con_vs_stw105_main
+from .con_vp_eara2022 import main as con_vp_eara2022_main
+from .con_vp_ak135 import main as con_vp_ak135_main
+from .con_vp_stw105 import main as con_vp_stw105_main
+from .vol_vs_eara2022 import main as vol_vs_eara2022_main
+from .vol_vs_ak135 import main as vol_vs_ak135_main
+from .vol_vs_stw105 import main as vol_vs_stw105_main
+from .vol_vp_eara2022 import main as vol_vp_eara2022_main
+from .vol_vp_ak135 import main as vol_vp_ak135_main
+from .vol_vp_stw105 import main as vol_vp_stw105_main
 
 __all__ = [
     'geo_map_main',
@@ -40,16 +52,28 @@ __all__ = [
     'vp_stw105_main',
     'vp_vs_main',
     'radial_main',
-    'slab_main_vs',
-    'slab_main_vp',
+    'slab_vs_eara2022_main',
+    'slab_vs_ak135_main',
+    'slab_vs_stw105_main',
+    'slab_vp_eara2022_main',
+    'slab_vp_ak135_main',
+    'slab_vp_stw105_main',
     'changbaishan_models_stw105_vs_main',
     'changbaishan_models_stw105_vp_main',
     'changbaishan_models_eara2022_vs_main',
     'changbaishan_models_eara2022_vp_main',
     'changbaishan_models_ak135_vs_main',
     'changbaishan_models_ak135_vp_main',
-    'con_vs_main',
-    'con_vp_main',
-    'vol_vs_main',
-    'vol_vp_main'
+    'con_vs_eara2022_main',
+    'con_vs_ak135_main',
+    'con_vs_stw105_main',
+    'con_vp_eara2022_main',
+    'con_vp_ak135_main',
+    'con_vp_stw105_main',
+    'vol_vs_eara2022_main',
+    'vol_vp_eara2022_main',
+    'vol_vs_ak135_main',
+    'vol_vp_ak135_main',
+    'vol_vs_stw105_main',
+    'vol_vp_stw105_main',
 ]
