@@ -4,19 +4,24 @@ changbaishan_models_base
 Compare models bfor the structure beneath the Changbaishan volcano, with the referencec model passed.
 """
 import numpy as np
+import pygmt
 import xarray as xr
 from eara2022 import resource, save_path
-from scipy import interpolate
-from eara2022.utils.plot import plot_place_holder
-import pygmt
 from eara2022.utils import get_vol_list
-from eara2022.utils.slice import gmt_lon_as_dist, model_interp
+from eara2022.utils.plot import plot_place_holder
+from eara2022.utils.slice import extend_line, gmt_lon_as_dist, model_interp
+from scipy import interpolate
 
 # * settings
 np.seterr(divide='ignore')
 np.seterr(invalid='ignore')
-start_point = (113, 42)
-end_point = (145.6063681055389, 38)
+# * old points
+# start_point = (113, 42)
+# end_point = (145.6063681055389, 38)
+# * new points
+start_point = (118, 42)
+end_point = (128.08, 41.98)
+end_point = extend_line(start_point, end_point, 25)
 
 # * several paths for the models, some may unused
 eara2021_abs_path = resource(['model_files', 'eara2021.nc'], normal_path=True)
@@ -267,7 +272,8 @@ def plot_base(parameter: str, ref_key: str, save_name: str, colorbar_content: st
                  font="18p,Helvetica-Bold,black", fill="white", offset="j0.1i/0.3i")
         fig.text(x=24, y=900, text=labels[index],
                  font="18p,Helvetica-Bold,black", fill="white", offset="j0.1i/0.3i")
-        fig.plot(x=12, y=-50, style="kvolcano/0.7", color="red", no_clip=True)
+        fig.plot(x=7.42, y=-50, style="kvolcano/0.7",
+                 color="red", no_clip=True)
 
         # ticks for the basemap
         with pygmt.config(MAP_FRAME_TYPE="inside", MAP_TICK_LENGTH_PRIMARY="10p"):
