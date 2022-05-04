@@ -36,6 +36,8 @@ from .vol_vs_stw105 import main as vol_vs_stw105_main
 from .vol_vp_eara2022 import main as vol_vp_eara2022_main
 from .vol_vp_ak135 import main as vol_vp_ak135_main
 from .vol_vp_stw105 import main as vol_vp_stw105_main
+from .changbaishan_fwea18_ak135 import main as changbaishan_fwea18_ak135_main
+from .changbaishan_fwea18_iasp91 import main as changbaishan_fwea18_iasp91_main
 
 __all__ = [
     'geo_map_main',
@@ -76,4 +78,6 @@ __all__ = [
     'vol_vp_ak135_main',
     'vol_vs_stw105_main',
     'vol_vp_stw105_main',
+    'changbaishan_fwea18_ak135_main',
+    'changbaishan_fwea18_iasp91_main',
 ]

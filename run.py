@@ -40,6 +40,8 @@ scripts_mapper = {
     'vol_vp_ak135': vol_vp_ak135_main,
     'vol_vs_stw105': vol_vs_stw105_main,
     'vol_vp_stw105': vol_vp_stw105_main,
+    'changbaishan_fwea18_ak135': changbaishan_fwea18_ak135_main,
+    'changbaishan_fwea18_iasp91': changbaishan_fwea18_iasp91_main,
 }
 
 
