@@ -125,10 +125,10 @@ def plot_base(ref_key: str, save_name: str):
         cross_section_xarray = xr.DataArray(cross_section, dims=(
             'h', "v"), coords={'h': np.linspace(0, 18, len(lons)), "v": deps})
         fig.grdimage(cross_section_xarray.T)
-        for interval in ["+-10", "+-8", "+-6", "+-4", "+-2"]:
+        for interval in ["+-7.5", "+-6", "+-4.5", "+-3", "+-1.5"]:
             fig.grdcontour(cross_section_xarray.T, interval=interval,
                            pen="0.5p,black", cut=300, annotation=interval+"+f8p+u%")
-        for interval in ["+2", "+4", "+6", "+8"]:
+        for interval in ["+1.5", "+3", "+4.5", "+6"]:
             fig.grdcontour(cross_section_xarray.T, interval=interval,
                            pen="0.5p,white", cut=300, annotation=interval+"+f8p+u%")
         # 410 and 660
@@ -167,10 +167,10 @@ def plot_base(ref_key: str, save_name: str):
         cross_section_xarray = xr.DataArray(cross_section, dims=(
             'h', "v"), coords={'h': np.linspace(0, 18, len(lons)), "v": deps})
         fig.grdimage(cross_section_xarray.T)
-        for interval in ["+-10", "+-8", "+-6", "+-4", "+-2"]:
+        for interval in ["+-7.5", "+-6", "+-4.5", "+-3", "+-1.5"]:
             fig.grdcontour(cross_section_xarray.T, interval=interval,
                            pen="0.5p,black", cut=300, annotation=interval+"+f8p+u%")
-        for interval in ["+2", "+4", "+6", "+8"]:
+        for interval in ["+1.5", "+3", "+4.5", "+6"]:
             fig.grdcontour(cross_section_xarray.T, interval=interval,
                            pen="0.5p,white", cut=300, annotation=interval+"+f8p+u%")
         # 410 and 660
@@ -198,4 +198,4 @@ def plot_base(ref_key: str, save_name: str):
         frame=["a1f", f'"+L@~d@~lnVp(%)"'],
         scale=1,)
 
-    save_path(fig, save_name, suffix="tif")
+    save_path(fig, save_name, suffix="pdf")
