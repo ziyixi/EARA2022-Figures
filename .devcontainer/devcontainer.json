@@ -3,6 +3,6 @@
 {
 	"name": "EARA202e-Figures",
 	"image": "ghcr.io/ziyixi/eara2022-figures:latest",
-
-	"postCreateCommand": "source $(poetry env info --path)/bin/activate"
+	"postStartCommand": "source $(poetry env info --path)/bin/activate",
+	"remoteUser": "root"
 }
