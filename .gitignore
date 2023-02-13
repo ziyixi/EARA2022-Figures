@@ -135,3 +135,5 @@ fig/*jpg
 
 # netcdfs
 eara2022/data/
+
+poetry.lock

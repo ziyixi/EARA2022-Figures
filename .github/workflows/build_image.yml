@@ -1,0 +1,22 @@
+name: build
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-publish-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build the Docker image
+        run: |
+          docker build -t ghcr.io/ziyixi/eara2022-figures:latest .
+          docker push ghcr.io/ziyixi/eara2022-figures:latest
