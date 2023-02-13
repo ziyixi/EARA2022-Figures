@@ -7,4 +7,5 @@ RUN conda config --prepend channels conda-forge \
     && echo 'export PATH="/root/.local/bin:$PATH"' >> /root/.bashrc
 
 ENV PATH="/root/.local/bin:$PATH"
+COPY pyproject.toml /
 RUN poetry install
