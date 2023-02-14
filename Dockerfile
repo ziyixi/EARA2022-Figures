@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/miniconda:0-3
+FROM mcr.microsoft.com/vscode/devcontainers/anaconda:0-3
 LABEL org.opencontainers.image.source=https://github.com/ziyixi/EARA2023-Figures
 
 ENV POETRY_HOME="/opt/poetry" \
