@@ -5,6 +5,7 @@ ENV POETRY_HOME="/opt/poetry" \
     PATH="/opt/poetry/bin:$PATH"
 
 RUN conda config --prepend channels conda-forge \
+    && pip3 install pyOpenSSL --upgrade \
     && conda install -y python=3.9 gmt \
     && curl -sSL https://install.python-poetry.org | python - \
     && echo 'export PATH="/opt/poetry/bin:$PATH"' >> /root/.bashrc
