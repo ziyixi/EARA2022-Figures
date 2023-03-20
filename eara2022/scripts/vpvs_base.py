@@ -4,7 +4,7 @@ vpvs_base.py
 provide basic plotting functions for the vp, vs, vp/vs, radial anistoropy plotting.
 """
 from json import load
-from string import ascii_uppercase
+from string import ascii_lowercase
 from typing import List
 
 import numpy as np
@@ -167,7 +167,7 @@ def plot_base(model_type: str, depths: List[int], cpt_series: str, cpt_reverse: 
             plot_base_map(fig, depths[idx])
 
             fig.text(
-                position="TL", text=ascii_uppercase[idx], font="28p,Helvetica-Bold,black", offset="j0.1i/0.15i")
+                position="TL", text=f"({ascii_lowercase[idx]})", font="28p,Helvetica-Bold,black", offset="j0.1i/0.15i")
             fig.text(position="TR", text=f"{depths[idx]} km",
                      font="24p,Helvetica,black", offset="j0.1i/0.15i")
             with pygmt.config(MAP_FRAME_TYPE="inside", MAP_TICK_LENGTH_PRIMARY="10p"):

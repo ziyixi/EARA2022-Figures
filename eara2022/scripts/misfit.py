@@ -130,8 +130,36 @@ def plot_misfit(fig: pygmt.Figure, panel: int, category: str, yrange: List[float
              font="12p,Helvetica-Bold,black", offset="j0.1i/0.15i")
     fig.text(position="TR", text=phase,
              font="12p,Helvetica-Bold,black", offset="j0.1i/0.32i")
-    fig.text(position="BL", text=f"{ascii_lowercase[panel-2 if panel>=3 else 0]})",
+    fig.text(position="BL", text=f"({ascii_lowercase[panel-2 if panel>=3 else 0]})",
              font="15p,Helvetica-Bold,black", offset="j0.2c/0.2c")
+    if panel == 1:
+        fig.text(x=data['source1']['x'], y=1-data['source1']['y'], text="before 1st",
+                 font="10p,Helvetica-Bold,black", angle=0, justify="TL", offset="j0.3i/0.1i")
+        fig.text(x=data['source1']['x'], y=1-data['source1']['y']-0.007, text="source inversion",
+                 font="10p,Helvetica-Bold,black", angle=0, justify="TL", offset="j0.3i/0.1i")
+        fig.text(x=data['stage1']['x'][:1], y=1-data['stage1']['y'][:1]+0.007, text="kernel smoother:",
+                 font="10p,Helvetica-Bold,black", angle=0, justify="BL", offset="j0.3i/0.1i")
+        fig.text(x=data['stage1']['x'][:1], y=1-data['stage1']['y'][:1], text="h: 50km, v: 25km",
+                 font="10p,Helvetica-Bold,black", angle=0, justify="BL", offset="j0.3i/0.1i")
+        fig.text(x=data['stage1']['x'][5:6], y=1-data['stage1']['y'][5:6], text="kernel smoother:",
+                 font="10p,Helvetica-Bold,black", angle=0, justify="TR", offset="j0i/0.3i")
+        fig.text(x=data['stage1']['x'][5:6], y=1-data['stage1']['y'][5:6]-0.007, text="h: 25km, v: 10km",
+                 font="10p,Helvetica-Bold,black", angle=0, justify="TR", offset="j0i/0.3i")
+        fig.text(x=data['source2']['x'], y=1-data['source2']['y']+0.007, text="before 2nd",
+                 font="10p,Helvetica-Bold,black", angle=0, justify="BL", offset="j0.3i/0.1i")
+        fig.text(x=data['source2']['x'], y=1-data['source2']['y'], text="source inversion",
+                 font="10p,Helvetica-Bold,black", angle=0, justify="BL", offset="j0.3i/0.1i")
+
+        style = "v0.1i+s+e+a40+ggreen4+h0+p1p,green4"
+        offsets = [0.3, 0.0015, 1.4, 0.006]
+        fig.plot(x=data['source1']['x']+offsets[2], y=1-data['source1']['y']-offsets[3], style=style,
+                 pen="0.04i,green4", direction=[data['source1']['x']+offsets[0], 1-data['source1']['y']-offsets[1]])
+        fig.plot(x=data['stage1']['x'][:1]+offsets[2], y=1-data['stage1']['y'][:1]+offsets[3], style=style,
+                 pen="0.04i,green4", direction=[data['stage1']['x'][:1]+offsets[0], 1-data['stage1']['y'][:1]+offsets[1]])
+        fig.plot(x=data['stage1']['x'][5:6]-offsets[2], y=1-data['stage1']['y'][5:6]-offsets[3]*2, style=style,
+                 pen="0.04i,green4", direction=[data['stage1']['x'][5:6]-offsets[0], 1-data['stage1']['y'][5:6]-offsets[1]])
+        fig.plot(x=data['source2']['x']+offsets[2], y=1-data['source2']['y']+offsets[3], style=style,
+                 pen="0.04i,green4", direction=[data['source2']['x']+offsets[0], 1-data['source2']['y']+offsets[1]])
 
 
 def main():

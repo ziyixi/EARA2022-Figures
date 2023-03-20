@@ -12,10 +12,9 @@ xarray = "^2022.3.0"
 obspy = "^1.3.0"
 numba = "^0.55.1"
 pyasdf = "^0.7.5"
-scipy = ">1.8.0,<1.10.0"
+scipy = ">1.8.0"
 pyproj = "^3.3.0"
 numpy = "~1.21"
-seisflow = {git = "https://github.com/ziyixi/seisflow.git", rev = "master"}
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.6.0"

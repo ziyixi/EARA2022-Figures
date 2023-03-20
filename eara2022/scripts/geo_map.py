@@ -17,7 +17,7 @@ def main():
 
     # load topo
     grd_topo = pygmt.datasets.load_earth_relief(
-        resolution="02m", region=[70, 160, 0, 62])
+        resolution="02m", region=[70, 160, 0, 62], registration="gridline")
 
     # * base lines
     fig.coast(water="167/194/223")
@@ -52,7 +52,7 @@ def main():
              font="8p,Helvetica-Bold,black", angle=70)
     fig.text(x=90, y=19, text="Bay of Bengal",
              font="8p,Helvetica,black", angle=0)
-    fig.text(x=80, y=25, text="India Plate",
+    fig.text(x=80, y=25, text="Indian Plate",
              font="12p,Helvetica-Bold,black", angle=-30)
     fig.text(x=93, y=23, text="Burma T.",
              font="8p,Helvetica-Bold,black", angle=80)
@@ -127,6 +127,8 @@ def main():
              font="8p,Helvetica-Bold,white", angle=102)
     fig.text(x=145, y=38, text="Japan T.",
              font="8p,Helvetica-Bold,white", angle=60)
+    fig.text(x=139, y=33, text="Nankai T.",
+             font="8p,Helvetica-Bold,black", angle=20)
     fig.text(x=153, y=44, text="Kuril T.",
              font="8p,Helvetica-Bold,white", angle=30)
     fig.text(x=110, y=54, text="Lake Baikai",

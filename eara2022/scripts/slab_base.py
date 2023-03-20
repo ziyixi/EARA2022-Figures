@@ -192,7 +192,10 @@ def slab_plot_base(conf: dict) -> None:
         with pygmt.config(MAP_FRAME_TYPE="plain", MAP_TICK_LENGTH="0p"):
             if row == 0 and col == 0:
                 fig.basemap(projection=f"X-{conf['x_fig']}i/-0.7i",
-                            region=f"0/{conf['length']}/0/100", frame=["wsen", f'pxc{annote}', "ya100f50"])
+                            region=f"0/{conf['length']}/0/100", frame=["Wsen", f'pxc{annote}', "ya100f50"])
+            elif col == 0:
+                fig.basemap(projection=f"X{conf['x_fig']}i/-0.7i",
+                            region=f"0/{conf['length']}/0/100", frame=["Wsen", f'pxc{annote}', "ya100f50"])
             else:
                 fig.basemap(projection=f"X{conf['x_fig']}i/-0.7i",
                             region=f"0/{conf['length']}/0/100", frame=["wsen", f'pxc{annote}', "ya100f50"])
@@ -233,10 +236,10 @@ def slab_plot_base(conf: dict) -> None:
         fig.plot(x=np.linspace(0, conf['length'], len(
             info['lons'])), y=grd_interp_result_below, pen="black", close="+y0", color="lightblue")
         if row == 0 and col == 0:
-            fig.text(x=23, y=2000, text=string.ascii_uppercase[row*3+col],
+            fig.text(x=23, y=2000, text=f"({string.ascii_lowercase[row*3+col]})",
                      font="24p,Helvetica-Bold,black", offset="j0.1i/0.3i")
         else:
-            fig.text(x=2, y=2000, text=string.ascii_uppercase[row*3+col],
+            fig.text(x=2, y=2000, text=f"({string.ascii_lowercase[row*3+col]})",
                      font="24p,Helvetica-Bold,black", offset="j0.1i/0.3i")
 
     def plot_text(fig: pygmt.Figure, idx: int) -> None:
@@ -331,7 +334,7 @@ def slab_plot_base(conf: dict) -> None:
     fig = pygmt.Figure()
     pygmt.config(FONT_LABEL="18p", MAP_LABEL_OFFSET="18p",
                  FONT_ANNOT_PRIMARY="18p", MAP_FRAME_TYPE="plain")
-    plot_place_holder(fig)
+    # plot_place_holder(fig)
     offset = generate_offset()
 
     # prepare plotting
@@ -396,10 +399,10 @@ def slab_plot_base(conf: dict) -> None:
                  style=style, pen="0.05i,blue")
         if idx in [3]:
             fig.text(x=info['lons'][len(info['lons'])//3*2], y=info['lats'][len(info['lats'])//3*2],
-                     text=string.ascii_uppercase[idx], fill="white", font="14p,Helvetica-Bold,black")
+                     text=f"({string.ascii_lowercase[idx]})", fill="white", font="14p,Helvetica-Bold,black")
         else:
             fig.text(x=info['lons'][len(info['lons'])//2], y=info['lats'][len(info['lats'])//2],
-                     text=string.ascii_uppercase[idx], fill="white", font="14p,Helvetica-Bold,black")
+                     text=f"({string.ascii_lowercase[idx]})", fill="white", font="14p,Helvetica-Bold,black")
 
     with pygmt.config(MAP_FRAME_TYPE="inside", MAP_TICK_LENGTH_PRIMARY="10p"):
         fig.basemap(region=[83, 160, 10, 60], projection="M6.8i", frame=[

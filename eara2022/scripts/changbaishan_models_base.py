@@ -21,7 +21,7 @@ np.seterr(invalid='ignore')
 # * new points
 start_point = (118, 42)
 end_point = (128.08, 41.98)
-end_point = extend_line(start_point, end_point, 25)
+end_point = extend_line(start_point, end_point, 23)
 
 # * several paths for the models, some may unused
 eara2021_abs_path = resource(['model_files', 'eara2021.nc'], normal_path=True)
@@ -159,7 +159,7 @@ def smooth_model(model: xr.DataArray) -> xr.DataArray:
 def plot_base_map(fig: pygmt.Figure) -> None:
     fig.coast(water="167/194/223")
     grd_topo = pygmt.datasets.load_earth_relief(
-        resolution="02m", region=[83, 160, 10, 60])
+        resolution="02m", region=[83, 160, 10, 60], registration="gridline")
     fig.grdimage(grd_topo, cmap=resource(
         ['cpt', 'land_sea.cpt'], normal_path=True))
     fig.plot(data=resource(
@@ -204,9 +204,9 @@ def plot_base(parameter: str, ref_key: str, save_name: str, colorbar_content: st
     pygmt.makecpt(cmap=resource(['cpt', 'dvs_6p_nan.cpt']),
                   series="-3/3/1", continuous=True, background="o")
 
-    plot_place_holder(fig)
+    # plot_place_holder(fig)
     # * prepare plotting
-    X = ["f0.8i", "f8.5i", "f0.8i", "f8.5i", "f0.8i"]
+    X = ["f0.8i", "f7.9i", "f0.8i", "f7.9i", "f0.8i"]
     Y = ["f8.3i"]*2+["f5.4i"]*2+["f2.5i"]
     tmp_xannote = gmt_lon_as_dist(
         start_point, end_point, a_interval=5, g_interval=1)
@@ -225,7 +225,7 @@ def plot_base(parameter: str, ref_key: str, save_name: str, colorbar_content: st
         center=start_point, endpoint=end_point, generate=0.02)
     lons: np.ndarray = points.r
     lats: np.ndarray = points.s
-    deps = np.linspace(0, 1000, 1001)
+    deps = np.linspace(0, 800, 801)
 
     # mask
     mask_model = load_mask()
@@ -237,25 +237,26 @@ def plot_base(parameter: str, ref_key: str, save_name: str, colorbar_content: st
         # basemap
         with pygmt.config(MAP_FRAME_TYPE="plain", MAP_TICK_LENGTH="0p"):
             if index in [0, 2]:
-                fig.basemap(projection=f"X7.5i/-2.7i",
-                            region=f"0/25/0/1000", frame=["Wsen", f'pxc{tmp_xannote}', 'yaf+l"Depth (km)"'])
+                fig.basemap(projection=f"X6.9i/-2.16i",
+                            region=f"0/25/0/800", frame=["Wsen", f'pxc{tmp_xannote}', 'yaf+l"Depth (km)"'])
             elif index in [1, 3]:
-                fig.basemap(projection=f"X7.5i/-2.7i",
-                            region=f"0/25/0/1000", frame=["wsen", 'yaf', f'pxc{tmp_xannote}'])
+                fig.basemap(projection=f"X6.9i/-2.16i",
+                            region=f"0/25/0/800", frame=["wsen", 'yaf', f'pxc{tmp_xannote}'])
             else:
-                fig.basemap(projection=f"X7.5i/-2.7i",
-                            region=f"0/25/0/1000", frame=["WSen", 'yaf+l"Depth (km)"', f'pxc{tmp_xannote}+l"Longitude (degree)"'])
+                fig.basemap(projection=f"X6.9i/-2.16i",
+                            region=f"0/25/0/800", frame=["WSen", 'yaf+l"Depth (km)"', f'pxc{tmp_xannote}+l"Longitude (degree)"'])
         # cs
         cross_section = model_interp(models[index], lons, lats, deps)
         cross_section_xarray = xr.DataArray(cross_section, dims=(
             'h', "v"), coords={'h': np.linspace(0, 25, len(lons)), "v": deps})
+        cross_section_xarray_for_contour = cross_section_xarray.copy()
         cross_section_xarray.data[mask_cs < 0.3] = np.nan
         fig.grdimage(cross_section_xarray.T)
         for interval in ["+-10", "+-8", "+-6", "+-4", "+-2"]:
-            fig.grdcontour(cross_section_xarray.T, interval=interval,
+            fig.grdcontour(cross_section_xarray_for_contour.T, interval=interval,
                            pen="0.5p,black", cut=300, annotation=interval+"+f8p+u%")
         for interval in ["+2", "+4", "+6", "+8"]:
-            fig.grdcontour(cross_section_xarray.T, interval=interval,
+            fig.grdcontour(cross_section_xarray_for_contour.T, interval=interval,
                            pen="0.5p,white", cut=300, annotation=interval+"+f8p+u%")
         # 410 and 660
         y_410 = np.zeros_like(lons)
@@ -277,8 +278,8 @@ def plot_base(parameter: str, ref_key: str, save_name: str, colorbar_content: st
 
         # ticks for the basemap
         with pygmt.config(MAP_FRAME_TYPE="inside", MAP_TICK_LENGTH_PRIMARY="10p"):
-            fig.basemap(projection=f"X7.5i/-2.7i",
-                        region=f"0/25/0/1000", frame=["wsen", f'pxc{tmp_xannote}', 'yaf'])
+            fig.basemap(projection=f"X6.9i/-2.16i",
+                        region=f"0/25/0/800", frame=["wsen", f'pxc{tmp_xannote}', 'yaf'])
 
     # * colorbar
     fig.shift_origin(xshift="f0.8i", yshift="f2.5i")
@@ -290,7 +291,7 @@ def plot_base(parameter: str, ref_key: str, save_name: str, colorbar_content: st
         scale=1,)
 
     # * plot map
-    fig.shift_origin(xshift="f10i", yshift="f1i")
+    fig.shift_origin(xshift="f9i", yshift="f1i")
     # basemap
     with pygmt.config(MAP_FRAME_TYPE="plain", MAP_TICK_LENGTH="0p"):
         fig.basemap(region=[83, 160, 10, 60],

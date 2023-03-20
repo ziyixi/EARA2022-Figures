@@ -81,7 +81,7 @@ def main() -> None:
     new_data = load_data(
         resource(['misfit', 's20_high_misfit'], normal_path=True))
 
-    with fig.subplot(nrows=6, ncols=3, figsize=("14.4i", "17.8i"), sharex='b', margins=['0.2i', '0.06i'], frame=["WSen"], autolabel="a)"):
+    with fig.subplot(nrows=6, ncols=3, figsize=("14.4i", "17.8i"), sharex='b', margins=['0.2i', '0.06i'], frame=["WSen"], autolabel="(a)"):
         for iphase, phase in enumerate(phases):
             for icategory, category in enumerate(categories):
                 frame = [f"xa{conf[category]['xa'][iphase]}f{conf[category]['xf'][iphase]}+l{categories[category]}",

@@ -4,7 +4,7 @@ waveform.py
 compare waveform between the old and the new model
 """
 from os.path import join
-from string import ascii_uppercase
+from string import ascii_lowercase
 from typing import Dict, List, TypedDict
 
 import numpy as np
@@ -176,7 +176,7 @@ def main() -> None:
             plot_waveform(fig, prepared_info, freq)
             fig.text(position="TL", text=labels[ifreq],
                      font="10p,Helvetica-Bold,black", offset="j0.1i/0.1i")
-            fig.text(position="TL", text=f"({ascii_uppercase[ifreq+1]})",
+            fig.text(position="TL", text=f"({ascii_lowercase[ifreq+1]})",
                      font="15p,Helvetica-Bold,black", offset="j-0.3i/0.2i", no_clip=True)
 
     # * the basemap
@@ -191,7 +191,7 @@ def main() -> None:
     fig.text(position="TL", text=f"200805071602A (Mw 6.2, 21km) [Station:{conf['sta_name']}]",
              font="10p,Helvetica-Bold,black", offset="j0.1i/-0.3i", no_clip=True)
     fig.meca(spec=meca, convention="mt", scale="0.8i")
-    fig.text(position="TL", text="(A)",
+    fig.text(position="TL", text="(a)",
              font="15p,Helvetica-Bold,black", offset="j-0.3i/-0.3i", no_clip=True)
 
     # * legend

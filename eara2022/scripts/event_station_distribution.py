@@ -120,7 +120,7 @@ def main():
                  MAP_FRAME_TYPE="plain", MAP_TITLE_OFFSET="8p", FONT_TITLE="14p,black", MAP_FRAME_PEN="1p,black")
 
     # * lower
-    with fig.subplot(nrows=1, ncols=4, figsize=("17.5i", "3i"), autolabel="C)", sharey='l', sharex='b', margins=['0.15i', '0i'], frame=["WSen", "xaf", "yaf"]):
+    with fig.subplot(nrows=1, ncols=4, figsize=("17.5i", "3i"), autolabel="(c)", sharey='l', sharex='b', margins=['0.15i', '0i'], frame=["WSen", "xaf", "yaf"]):
         hist_dict = collect_gcmt_information(gcmt_dir)
         # event time
         fig.histogram(data=hist_dict['time'], series=1, pen="1p",  frame=['yaf+l"Number of events"', "xa3yf1y",
@@ -134,7 +134,7 @@ def main():
 
     # * upper
     fig.shift_origin(yshift="h+1i")
-    with fig.subplot(nrows=1, ncols=2, figsize=("14i", "6i"), autolabel="A)", sharey='l', sharex='b', margins=['0.1i', '0i'], frame=["WSen", "xaf", "yaf"]):
+    with fig.subplot(nrows=1, ncols=2, figsize=("14i", "6i"), autolabel="(a)", sharey='l', sharex='b', margins=['0.1i', '0i'], frame=["WSen", "xaf", "yaf"]):
         # * event map
         fig.basemap(region=[70, 160, 0, 62], projection="M?", panel=0)
         # boundaries

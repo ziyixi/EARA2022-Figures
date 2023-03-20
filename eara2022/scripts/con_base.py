@@ -174,8 +174,12 @@ def con_plot_base(conf: dict) -> None:
         fig.shift_origin(xshift=offset['x'][row]
                          [col], yshift=offset['yabs'][row][col])
         with pygmt.config(MAP_FRAME_TYPE="plain", MAP_TICK_LENGTH="0p"):
-            fig.basemap(projection=f"X{conf['x_fig']}i/-0.7i",
-                        region=f"0/{conf['length']}/0/100", frame=["wsen", f'pxc{annote}', "ya100f50"])
+            if col == 0:
+                fig.basemap(projection=f"X{conf['x_fig']}i/-0.7i",
+                            region=f"0/{conf['length']}/0/100", frame=["Wsen", f'pxc{annote}', "ya100f50"])
+            else:
+                fig.basemap(projection=f"X{conf['x_fig']}i/-0.7i",
+                            region=f"0/{conf['length']}/0/100", frame=["wsen", f'pxc{annote}', "ya100f50"])
         cross_section = model_interp(
             eara_abs, info['lons'], info['lats'], info['deps_abs'])
         cross_section_xarray = xr.DataArray(cross_section, dims=(
@@ -204,7 +208,7 @@ def con_plot_base(conf: dict) -> None:
             info['lons'])), y=grd_interp_result_above, pen="black", close="+y0", color="gray")
         fig.plot(x=np.linspace(0, conf['length'], len(
             info['lons'])), y=grd_interp_result_below, pen="black", close="+y0", color="lightblue")
-        fig.text(x=1, y=5000, text=string.ascii_uppercase[row*3+col],
+        fig.text(x=1, y=5000, text=f"({string.ascii_lowercase[row*3+col]})",
                  font="24p,Helvetica-Bold,black", offset="j0.1i/0.3i")
 
     def plot_text(fig: pygmt.Figure, idx: int) -> None:
@@ -265,7 +269,7 @@ def con_plot_base(conf: dict) -> None:
     def plot_base_map(fig: pygmt.Figure) -> None:
         fig.coast(water="167/194/223")
         grd_topo = pygmt.datasets.load_earth_relief(
-            resolution="02m", region=[83, 160, 10, 60])
+            resolution="02m", region=[83, 160, 10, 60], registration="gridline")
         fig.grdimage(grd_topo, cmap=resource(
             ['cpt', 'land_sea.cpt'], normal_path=True))
         fig.plot(data=resource(
@@ -285,7 +289,7 @@ def con_plot_base(conf: dict) -> None:
     fig = pygmt.Figure()
     pygmt.config(FONT_LABEL="15p", MAP_LABEL_OFFSET="12p",
                  FONT_ANNOT_PRIMARY="12p", MAP_FRAME_TYPE="plain")
-    plot_place_holder(fig)
+    # plot_place_holder(fig)
     offset = generate_offset()
 
     # prepare plotting
@@ -309,7 +313,7 @@ def con_plot_base(conf: dict) -> None:
     eara.data[mask.data < 0.3] = np.nan
     eara_abs.data[mask.data < 0.3] = np.nan
     grd_topo = pygmt.datasets.load_earth_relief(
-        resolution="02m", region=[83, 160, 10, 60])
+        resolution="02m", region=[83, 160, 10, 60], registration="gridline")
 
     # * plot figures
     for idx in range(len(all_lines)):
@@ -350,13 +354,13 @@ def con_plot_base(conf: dict) -> None:
                  style=style, pen="0.05i,blue")
         if idx in [3, 4]:
             fig.text(x=info['lons'][len(info['lons'])//2], y=info['lats'][len(info['lats'])//2],
-                     text=string.ascii_uppercase[idx], fill="white", font="10p,Helvetica-Bold,black")
+                     text=f"({string.ascii_lowercase[idx]})", fill="white", font="10p,Helvetica-Bold,black")
         elif idx in [0, 1, 2, 5]:
             fig.text(x=info['lons'][len(info['lons'])//4*3], y=info['lats'][len(info['lats'])//4*3],
-                     text=string.ascii_uppercase[idx], fill="white", font="10p,Helvetica-Bold,black")
+                     text=f"({string.ascii_lowercase[idx]})", fill="white", font="10p,Helvetica-Bold,black")
         else:
             fig.text(x=info['lons'][len(info['lons'])//4], y=info['lats'][len(info['lats'])//4],
-                     text=string.ascii_uppercase[idx], fill="white", font="10p,Helvetica-Bold,black")
+                     text=f"({string.ascii_lowercase[idx]})", fill="white", font="10p,Helvetica-Bold,black")
 
     with pygmt.config(MAP_FRAME_TYPE="inside", MAP_TICK_LENGTH_PRIMARY="10p"):
         fig.basemap(region=[83, 160, 10, 60], projection="M4.1i", frame=[

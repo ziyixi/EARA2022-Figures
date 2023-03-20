@@ -69,7 +69,7 @@ def main() -> None:
     series = ["-0.01/0.01/0.01", "-0.0000003/0.0000003/0.0000001",
               "-0.0000003/0.0000003/0.0000001", "-0.0000003/0.0000003/0.0000001"]
     texts = ["sv", "sv", "sh", "c"]
-    with fig.subplot(nrows=5, ncols=4, figsize=("20i", "20i"), sharex='b', sharey='l', margins=['0.05i', '0.05i'], frame=["WSen", "xaf", "yaf"], autolabel="A)+o0.2i/0.1i"):
+    with fig.subplot(nrows=5, ncols=4, figsize=("20i", "20i"), sharex='b', sharey='l', margins=['0.05i', '0.05i'], frame=["WSen", "xaf", "yaf"], autolabel="(a)+o0.2i/0.1i"):
         for icategory, category in enumerate(categories):
             for idep, dep in enumerate(depths):
                 with pygmt.config(MAP_FRAME_TYPE="plain", MAP_TICK_LENGTH="0p"):
