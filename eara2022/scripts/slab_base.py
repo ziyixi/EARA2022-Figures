@@ -376,7 +376,7 @@ def slab_plot_base(conf: dict) -> None:
                       series=f"-3/3/1", continuous=True, background="o")
         plot_per(fig, offset, row, col, info, annote, eara)
         # * abs
-        pygmt.makecpt(cmap="seis", series=conf['abs_cpt'],
+        pygmt.makecpt(cmap="jet", series=conf['abs_cpt'],
                       continuous=True, background="o")
         plot_abs(fig, offset, row, col, info, annote, eara_abs)
         # * topo
@@ -419,7 +419,7 @@ def slab_plot_base(conf: dict) -> None:
         frame=["a1f", f"+L@~d@~ln{conf['cbar']}(%)"],
         scale=1)
     # pygmt.makecpt(cmap="seis",series=f"2.8/4.6/0.3",continuous=True, D="o")
-    pygmt.makecpt(cmap="seis", series=conf['abs_cpt'],
+    pygmt.makecpt(cmap="jet", series=conf['abs_cpt'],
                   continuous=True, background="o")
     fig.colorbar(
         # justified inside map frame (j) at Top Center (TC)

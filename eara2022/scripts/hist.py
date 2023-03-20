@@ -43,7 +43,7 @@ conf: dict[str, dict[str, List[float]]] = {
         'ya': [25000, 25000, 20000, 5000, 2500, 5000],
         'yf': [5000, 5000, 5000, 1000, 500, 1000],
         'ymin': [0]*6,
-        'ymax': [100000, 80000, 50000, 15000, 10000, 15000],
+        'ymax': [93750, 81250, 43750, 13125, 10000, 12500],
         'bar_width': [0.5]*6
     },
     'nzcc': {
@@ -54,7 +54,7 @@ conf: dict[str, dict[str, List[float]]] = {
         'ya': [20000, 20000, 10000, 10000, 5000, 10000],
         'yf': [5000, 5000, 2000, 2000, 1000, 2000],
         'ymin': [0]*6,
-        'ymax': [80000, 60000, 30000, 40000, 25000, 30000],
+        'ymax': [75000, 75000, 37500, 37500, 25000, 35000],
         'bar_width': [0.05]*6
     },
     'cc': {
@@ -65,7 +65,7 @@ conf: dict[str, dict[str, List[float]]] = {
         'ya': [10000, 10000, 5000, 5000, 5000, 5000],
         'yf': [2000, 2000, 1000, 1000, 1000, 1000],
         'ymin': [0]*6,
-        'ymax': [50000, 40000, 20000, 25000, 15000, 25000],
+        'ymax': [50000, 50000, 23750, 31250, 18750, 26250],
         'bar_width': [0.025]*6
     }
 }
@@ -73,8 +73,8 @@ conf: dict[str, dict[str, List[float]]] = {
 
 def main() -> None:
     fig = pygmt.Figure()
-    pygmt.config(FONT_LABEL="12p", MAP_LABEL_OFFSET="8p",
-                 FONT_ANNOT_PRIMARY="10p")
+    pygmt.config(FONT_LABEL="15p", MAP_LABEL_OFFSET="10p",
+                 FONT_ANNOT_PRIMARY="13p")
 
     old_data = load_data(
         resource(['misfit', 'iter1_high_misfit'], normal_path=True))

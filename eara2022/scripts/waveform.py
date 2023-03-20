@@ -142,9 +142,12 @@ def plot_waveform(fig: pygmt.Figure, prepared_info: PreparedInfo, freq: str):
         # * waveform
         x, yd, yn, yo = [waveform[comp][key]
                          for key in ['x', 'data', 'new', 'old']]
-        fig.plot(x=x, y=yd+offset, pen="0.4p,black")
-        fig.plot(x=x, y=yo+offset, pen="0.4p,green4")
-        fig.plot(x=x, y=yn+offset, pen="0.4p,red")
+        # original plot colors are red, green, black
+        # try to find new combinations which are more distinguishable (keep black anyway)
+        # so the colors are changed to turquoise, red, black
+        fig.plot(x=x, y=yd+offset, pen="0.3p,black")
+        fig.plot(x=x, y=yo+offset, pen="0.3p,turquoise")
+        fig.plot(x=x, y=yn+offset, pen="0.3p,red")
         # * windows
         wins = prepared_info["windows"][comp]
         for ii, val in enumerate(wins):

@@ -12,12 +12,12 @@ def main():
 
     # basemap
     with pygmt.config(MAP_FRAME_TYPE="plain", MAP_TICK_LENGTH="0p"):
-        fig.basemap(region=[70, 160, 0, 62], projection="M8i",
+        fig.basemap(region=[70, 175, 0, 67], projection="M8i",
                     frame=["WSen", "xafg", "yafg"])
 
     # load topo
     grd_topo = pygmt.datasets.load_earth_relief(
-        resolution="02m", region=[70, 160, 0, 62], registration="gridline")
+        resolution="02m", region=[70, 175, 0, 67], registration="gridline")
 
     # * base lines
     fig.coast(water="167/194/223")
@@ -144,7 +144,7 @@ def main():
         cmap=resource(["cpt", "land_sea.cpt"]))
 
     with pygmt.config(MAP_FRAME_TYPE="inside", MAP_TICK_LENGTH_PRIMARY="10p"):
-        fig.basemap(region=[70, 160, 0, 62],
+        fig.basemap(region=[70, 175, 0, 67],
                     projection="M8i", frame=["wsen", "xaf", "yaf"])
 
     # * save

@@ -9,7 +9,7 @@ from eara2022.utils.gcmt import collect_gcmt_information, gcmt_to_psmeca
 # * events cpt
 events_cpt_content = """
 0 red 70 red
-70 green 150 green
+70 purple 150 purple
 150 blue 300 blue
 300 orange 700 orange
 """
@@ -22,7 +22,7 @@ stations_cpt_content = """
 2 blue
 3 chocolate
 4 green4
-5 green1
+5 darkcyan
 6 cyan
 7 black
 """
@@ -31,7 +31,7 @@ cpt_file_stations = generate_tmp_file(stations_cpt_content, suffix='.cpt')
 # * events legend
 events_legend_content = """
 S 0.1c kmeca 15p red 0.5p,black 0.66c   0 - 70 km
-S 0.1c kmeca 15p green 0.5p,black 0.66c 70 - 150 km
+S 0.1c kmeca 15p purple 0.5p,black 0.66c 70 - 150 km
 S 0.1c kmeca 15p blue 0.5p,black 0.66c 150 - 300 km
 S 0.1c kmeca 15p orange 0.5p,black 0.66c 300 - 700 km
 """
@@ -45,7 +45,7 @@ S 0.1c t 12p blue 1p 0.36c KMA Network
 S 0.1c t 12p chocolate 1p 0.36c Central Mongolia
 S 0.1c t 12p - - 0.36c Seismic Experiment
 S 0.1c t 12p green4 1p 0.36c NCISP7
-S 0.1c t 12p green1 1p 0.36c NECESSArray
+S 0.1c t 12p darkcyan 1p 0.36c NECESSArray
 S 0.1c t 12p cyan 1p 0.36c INDEPTH IV
 S 0.1c t 12p black 1p 0.36c Data obstained from
 S 0.1c t 12p - - 0.36c IRIS DMC, including:

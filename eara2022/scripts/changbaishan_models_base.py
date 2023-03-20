@@ -201,6 +201,8 @@ def plot_base(parameter: str, ref_key: str, save_name: str, colorbar_content: st
 
     # * draw the base plot
     fig = pygmt.Figure()
+    pygmt.config(FONT_LABEL="20p", MAP_LABEL_OFFSET="10p",
+                 FONT_ANNOT_PRIMARY="20p")
     pygmt.makecpt(cmap=resource(['cpt', 'dvs_6p_nan.cpt']),
                   series="-3/3/1", continuous=True, background="o")
 
@@ -285,7 +287,7 @@ def plot_base(parameter: str, ref_key: str, save_name: str, colorbar_content: st
     fig.shift_origin(xshift="f0.8i", yshift="f2.5i")
     fig.colorbar(
         # justified inside map frame (j) at Top Center (TC)
-        position="JBC+w5i/0.8c+h+o0i/1.5c",
+        position="JBC+w5i/0.8c+h+o0i/1.8c",
         box=False,
         frame=["a1f", f'"+L{colorbar_content}"'],
         scale=1,)

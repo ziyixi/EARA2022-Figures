@@ -43,11 +43,11 @@ def plot_left_table(fig: pygmt.Figure, projection: str) -> None:
              font="12p,Helvetica-Bold,black", projection=projection)
     fig.text(x=0.1, y=0.625, text="Stage 1",
              font="12p,Helvetica-Bold,black", projection=projection)
-    fig.plot(x=0.22, y=0.625, style="a0.1i",
+    fig.plot(x=0.22, y=0.625, style="a0.2i",
              color="red", projection=projection)
     fig.text(x=0.1, y=0.375, text="Stage 2",
              font="12p,Helvetica-Bold,black", projection=projection)
-    fig.plot(x=0.22, y=0.375, style="d0.1i",
+    fig.plot(x=0.22, y=0.375, style="d0.2i",
              color="blue", projection=projection)
     fig.text(x=0.5, y=0.125, text="Measured at the last iteration of each stage",
              font="12p,Helvetica-Bold,black", projection=projection)
@@ -77,16 +77,16 @@ def plot_right_table(fig: pygmt.Figure, projection: str) -> None:
              font="12p,Helvetica-Bold,black", projection=projection)
     fig.text(x=0.1, y=0.625, text="Stage 1",
              font="12p,Helvetica-Bold,black", projection=projection)
-    fig.plot(x=0.22, y=0.625, style="a0.1i",
+    fig.plot(x=0.22, y=0.625, style="a0.2i",
              color="red", projection=projection)
     fig.text(x=0.1, y=0.375, text="Stage 2",
              font="12p,Helvetica-Bold,black", projection=projection)
-    fig.plot(x=0.22, y=0.375, style="d0.1i",
+    fig.plot(x=0.22, y=0.375, style="d0.2i",
              color="blue", projection=projection)
     fig.text(x=0.4, y=0.125, text="Starting Misfit at Each Stage:",
              font="12p,Helvetica-Bold,black", projection=projection)
-    fig.plot(x=0.80, y=0.125, style="a0.1i", projection=projection)
-    fig.plot(x=0.87, y=0.125, style="d0.1i", projection=projection)
+    fig.plot(x=0.80, y=0.125, style="a0.2i", projection=projection)
+    fig.plot(x=0.87, y=0.125, style="d0.2i", projection=projection)
 
 
 def handle_misfit_npy(category: str) -> dict[str, dict[str, NDArray]]:
@@ -119,36 +119,36 @@ def plot_misfit(fig: pygmt.Figure, panel: int, category: str, yrange: List[float
     fig.basemap(region=[-1, 21]+list(yrange),
                 frame=["xaf", "yaf"], projection="X?", panel=panel)
 
-    fig.plot(x=data['source1']['x'], y=1-data['source1']['y'], style="a0.1i")
+    fig.plot(x=data['source1']['x'], y=1-data['source1']['y'], style="a0.2i")
     fig.plot(x=data['stage1']['x'], y=1-data['stage1']
-             ['y'], style="a0.1i", color="red")
-    fig.plot(x=data['source2']['x'], y=1-data['source2']['y'],  style="d0.1i")
+             ['y'], style="a0.2i", color="red")
+    fig.plot(x=data['source2']['x'], y=1-data['source2']['y'],  style="d0.2i")
     fig.plot(x=data['stage2']['x'], y=1-data['stage2']
-             ['y'], style="d0.1i", color="blue")
+             ['y'], style="d0.2i", color="blue")
 
     fig.text(position="TR", text=ylabel,
-             font="12p,Helvetica-Bold,black", offset="j0.1i/0.15i")
+             font="12p,Helvetica-Bold,black", offset="j0.2i/0.15i")
     fig.text(position="TR", text=phase,
-             font="12p,Helvetica-Bold,black", offset="j0.1i/0.32i")
+             font="12p,Helvetica-Bold,black", offset="j0.2i/0.32i")
     fig.text(position="BL", text=f"({ascii_lowercase[panel-2 if panel>=3 else 0]})",
              font="15p,Helvetica-Bold,black", offset="j0.2c/0.2c")
     if panel == 1:
         fig.text(x=data['source1']['x'], y=1-data['source1']['y'], text="before 1st",
-                 font="10p,Helvetica-Bold,black", angle=0, justify="TL", offset="j0.3i/0.1i")
+                 font="10p,Helvetica-Bold,black", angle=0, justify="TL", offset="j0.3i/0.2i")
         fig.text(x=data['source1']['x'], y=1-data['source1']['y']-0.007, text="source inversion",
-                 font="10p,Helvetica-Bold,black", angle=0, justify="TL", offset="j0.3i/0.1i")
+                 font="10p,Helvetica-Bold,black", angle=0, justify="TL", offset="j0.3i/0.2i")
         fig.text(x=data['stage1']['x'][:1], y=1-data['stage1']['y'][:1]+0.007, text="kernel smoother:",
-                 font="10p,Helvetica-Bold,black", angle=0, justify="BL", offset="j0.3i/0.1i")
+                 font="10p,Helvetica-Bold,black", angle=0, justify="BL", offset="j0.3i/0.2i")
         fig.text(x=data['stage1']['x'][:1], y=1-data['stage1']['y'][:1], text="h: 50km, v: 25km",
-                 font="10p,Helvetica-Bold,black", angle=0, justify="BL", offset="j0.3i/0.1i")
+                 font="10p,Helvetica-Bold,black", angle=0, justify="BL", offset="j0.3i/0.2i")
         fig.text(x=data['stage1']['x'][5:6], y=1-data['stage1']['y'][5:6], text="kernel smoother:",
                  font="10p,Helvetica-Bold,black", angle=0, justify="TR", offset="j0i/0.3i")
         fig.text(x=data['stage1']['x'][5:6], y=1-data['stage1']['y'][5:6]-0.007, text="h: 25km, v: 10km",
                  font="10p,Helvetica-Bold,black", angle=0, justify="TR", offset="j0i/0.3i")
         fig.text(x=data['source2']['x'], y=1-data['source2']['y']+0.007, text="before 2nd",
-                 font="10p,Helvetica-Bold,black", angle=0, justify="BL", offset="j0.3i/0.1i")
+                 font="10p,Helvetica-Bold,black", angle=0, justify="BL", offset="j0.3i/0.2i")
         fig.text(x=data['source2']['x'], y=1-data['source2']['y'], text="source inversion",
-                 font="10p,Helvetica-Bold,black", angle=0, justify="BL", offset="j0.3i/0.1i")
+                 font="10p,Helvetica-Bold,black", angle=0, justify="BL", offset="j0.3i/0.2i")
 
         style = "v0.1i+s+e+a40+ggreen4+h0+p1p,green4"
         offsets = [0.3, 0.0015, 1.4, 0.006]
@@ -165,8 +165,8 @@ def plot_misfit(fig: pygmt.Figure, panel: int, category: str, yrange: List[float
 def main():
     # * init
     fig = pygmt.Figure()
-    pygmt.config(FONT_LABEL="16p", MAP_LABEL_OFFSET="8p",
-                 FONT_ANNOT_PRIMARY="16p")
+    pygmt.config(FONT_LABEL="20p", MAP_LABEL_OFFSET="10p",
+                 FONT_ANNOT_PRIMARY="20p")
 
     with fig.subplot(nrows=3, ncols=3, figsize=("14.4i", "9i"), sharex='b', margins=['0.2i', '0.06i'], frame=["WSen", 'xaf+l"Iteration No."', "yaf"]):
         # * left table

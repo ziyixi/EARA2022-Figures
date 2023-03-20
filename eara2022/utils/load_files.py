@@ -1,5 +1,4 @@
 import pickle
-import seisflow
 
 
 def load_pickle(pickle_path: str):
