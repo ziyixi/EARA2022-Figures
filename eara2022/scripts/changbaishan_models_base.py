@@ -214,7 +214,7 @@ def plot_base(parameter: str, ref_key: str, save_name: str, colorbar_content: st
         start_point, end_point, a_interval=5, g_interval=1)
 
     models = [eara2021, fwea18, eara2014, glad_m25, gap_p4]
-    model_names = ["EARA2021", "FWEA18", "EARA2014", "GLAD_M25", "GAP_P4"]
+    model_names = ["EARA2023", "FWEA18", "EARA2014", "GLAD_M25", "GAP_P4"]
     for i, model in enumerate(models):
         models[i] = smooth_model(model)
     if parameter == "vs":
