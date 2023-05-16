@@ -7,13 +7,13 @@ from eara2022.utils import generate_tmp_file
 from eara2022.utils.gcmt import collect_gcmt_information, gcmt_to_psmeca
 
 # * events cpt
-events_cpt_content = """
-0 red 70 red
-70 purple 150 purple
-150 blue 300 blue
-300 orange 700 orange
-"""
-cpt_file_meca = generate_tmp_file(events_cpt_content, suffix='.cpt')
+# events_cpt_content = """
+# 0 red 70 red
+# 70 purple 150 purple
+# 150 blue 300 blue
+# 300 orange 700 orange
+# """
+# cpt_file_meca = generate_tmp_file(events_cpt_content, suffix='.cpt')
 
 # * stations cpt
 stations_cpt_content = """
@@ -29,13 +29,13 @@ stations_cpt_content = """
 cpt_file_stations = generate_tmp_file(stations_cpt_content, suffix='.cpt')
 
 # * events legend
-events_legend_content = """
-S 0.1c kmeca 15p red 0.5p,black 0.66c   0 - 70 km
-S 0.1c kmeca 15p purple 0.5p,black 0.66c 70 - 150 km
-S 0.1c kmeca 15p blue 0.5p,black 0.66c 150 - 300 km
-S 0.1c kmeca 15p orange 0.5p,black 0.66c 300 - 700 km
-"""
-events_legend = generate_tmp_file(events_legend_content)
+# events_legend_content = """
+# S 0.1c kmeca 15p red 0.5p,black 0.66c   0 - 70 km
+# S 0.1c kmeca 15p purple 0.5p,black 0.66c 70 - 150 km
+# S 0.1c kmeca 15p blue 0.5p,black 0.66c 150 - 300 km
+# S 0.1c kmeca 15p orange 0.5p,black 0.66c 300 - 700 km
+# """
+# events_legend = generate_tmp_file(events_legend_content)
 
 # * stations legend
 stations_legend_content = """
@@ -133,6 +133,7 @@ def main():
                       "yaf", 'xaf', 'WSen+t"Half Duration(s)"'], region=[1, 7, 0, 25], fill="lightblue", center=False, projection="X?/?", panel=3)
 
     # * upper
+    pygmt.makecpt(cmap="seis", series=[0, 700, 1], continuous=True)
     fig.shift_origin(yshift="h+1i")
     with fig.subplot(nrows=1, ncols=2, figsize=("14i", "6i"), autolabel="(a)", sharey='l', sharex='b', margins=['0.1i', '0i'], frame=["WSen", "xaf", "yaf"]):
         # * event map
@@ -141,7 +142,7 @@ def main():
         plot_base_map(fig)
         events = gcmt_to_psmeca(gcmt_dir)
         fig.meca(events, convention="mt", scale="12p",
-                 M=True, C=cpt_file_meca)
+                 M=True, C=True)
 
         # station map
         fig.basemap(region=[70, 160, 0, 62], projection="M?", panel=1)
@@ -151,10 +152,16 @@ def main():
 
     # * legend
     fig.shift_origin(xshift="w+0.5i")
-    with pygmt.config(MAP_FRAME_PEN="0.0p,white", FONT_ANNOT_PRIMARY="18p"):
+    with pygmt.config(MAP_FRAME_PEN="0.0p,white", FONT_ANNOT_PRIMARY="18p", FONT_LABEL="25p"):
         fig.basemap(region=[0, 1, 0, 1],
-                    projection="X3i/5.5i", frame=["lbrt"])
-        fig.legend(spec=events_legend, position="jTL+w1.5c+o0.2c/0.2c")
+                    projection="X3i/4.5i", frame=["lbrt"])
+        fig.colorbar(
+            cmap=True,
+            position="jCM+w6c/1.4c+o-0.2i/3i+h",
+            frame=['xa200f+l"Event Depth (km)"'],
+            scale=1,
+        )
+        # fig.legend(position="jTL+w1.5c+o0.2c/0.2c")
         fig.basemap(region=[0, 1, 0, 1],
                     projection="X3i/4i", frame=["lbrt"])
         fig.legend(spec=stations_legend, position="jTL+w1.5c+o0.2c/0.2c")

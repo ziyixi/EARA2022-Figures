@@ -18,7 +18,8 @@ np.seterr(invalid='ignore')
 
 start_point = (118, 42)
 end_point = (128.08, 41.98)
-end_point = extend_line(start_point, end_point, 18)
+LENGTH = 18
+end_point = extend_line(start_point, end_point, LENGTH)
 
 # * several paths for the models, some may unused
 eara2021_per_path = resource(
