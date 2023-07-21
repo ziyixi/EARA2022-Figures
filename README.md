@@ -2,6 +2,4 @@
 
 Figure scripts for the paper EARA2022
 
-## Note
-
-1. need gmt installed.
+_Note: the model's visualization site is under development_
